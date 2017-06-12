@@ -52,6 +52,9 @@ def main():
         print(current_word)
         
         next_word_increment += 1
+
+      print("Done listing words.")
+      print("End at " + str(datetime.datetime.now()))
          
     else:
       print("This command requires 2 inputs. See example: python mumbler.py hello 3")
