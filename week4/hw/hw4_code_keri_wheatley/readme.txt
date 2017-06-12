@@ -17,7 +17,8 @@ Password: GJb8kHne
 +-----------------------------------+----------------------------------------------+
 
 The setup scripts (hw4setup.sh, hw4preprocess.sh) have already been run to download 
-the zip files and preprocess them.
+the zip files and preprocess them in the cluster. The Mumbler program is already set 
+up in root and can be run directly in there.
 
 Mumbler program syntax: python mumbler.py <word> <number>
 Example: python mumbler.py water 5
