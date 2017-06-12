@@ -1,4 +1,4 @@
-# This script loads the 2-gram zip files into the file system under /gpfs/gpfsfpo/zipped_files
+# This script loads the two-gram zip files into the file system under /gpfs/gpfsfpo/zipped_files
 
 cd ~
 mkdir /gpfs/gpfsfpo/zipped_files
