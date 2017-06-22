@@ -255,6 +255,9 @@ _Note that the input to teragen is the number of 100 byte rows_
 * Clean up, e.g.:
 
         hdfs dfs -rm -r /terasort/\*
+        
+## To Turn In:
+* A document with the output of the Terasort run.
 
 ## Optional: Build Hadoop native libs
 
@@ -269,7 +272,7 @@ You can safely ignore these warnings. However, if you're interested in building 
 * Install build tools:
 
         yum install -y epel-release git && yum install -y protobuf-compiler cmake gcc gcc-c++ zlib-devel openssl-devel
-        curl http://apache.cs.utah.edu/maven/maven-3/3.3.3/binaries/apache-maven-3.3.3-bin.tar.gz | tar xz -C /usr/local --show-transformed --transform='s,/*[^/]*,maven,'
+        curl http://apache.cs.utah.edu/maven/maven-3/3.3.9/binaries/apache-maven-3.3.9-bin.tar.gz | tar xz -C /usr/local --show-transformed --transform='s,/*[^/]*,maven,'
 
 * Become the `hadoop` user again and update the environment:
 
