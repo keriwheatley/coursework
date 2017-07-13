@@ -6,7 +6,8 @@ import org.apache.spark.streaming.twitter._
 import org.apache.spark.SparkConf
 
 object twitter_popularity {
-  def main(args: consumerKey, consumerSecret, accessToken, accessTokenSecret,numHashtags=10,sampleInterval=60,runDuration=1800) {
+  def main(args: consumerKey:String, consumerSecret:String, accessToken:String, accessTokenSecret:String, numHashtags:Int = 10, sampleInterval:Int = 60, runDuration:Int = 1800) {
+// object Main extends App {
 
     println(s"I got executed with ${args size} args, they are: ${args mkString ", "}")
 
@@ -16,9 +17,12 @@ object twitter_popularity {
       System.exit(1)
     }
 
+    override val args: Array[String] = if (super.args(4).isEmpty) Array("10") else super.args(4)
+    println("args(0) = " + args(0))
+
     // StreamingExamples.setStreamingLogLevels()
 
-    // val Array(consumerKey, consumerSecret, accessToken, accessTokenSecret) = args.take(4)
+    val Array(consumerKey, consumerSecret, accessToken, accessTokenSecret) = args.take(4)
     // val numHashtags = args(4)
     // val sampleInterval = args(5)
     // val runDuration = args(6)
@@ -56,7 +60,6 @@ object twitter_popularity {
     ssc.awaitTermination()
   }
 }
-
 
 // The output of your program should be lists of hashtags that were determined 
 // to be popular during the program's execution, as well as lists of users, 
