@@ -21,7 +21,7 @@ object Main extends App {
   // StreamingExamples.setStreamingLogLevels()
 
   val Array(consumerKey, consumerSecret, accessToken, accessTokenSecret) = args.take(4)
-  val numHashtags = args(4)
+  val numHashtags = if (args(4).isEmpty) 10 else args(4)
   val sampleInterval = args(5)
   val runDuration = args(6)
 
