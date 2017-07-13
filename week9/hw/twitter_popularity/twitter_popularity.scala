@@ -34,7 +34,7 @@ object Main extends App {
                    .map{case (topic, count) => (count, topic)}
                    .transform(_.sortByKey(false))
 
-  topCounts60.foreachRDD(rdd => {
+  topCounts.foreachRDD(rdd => {
     val topList = rdd.take(numHashtags)
     println("\nThe %i Most popular topics in last %s seconds (%s total):".format(numHashtags, sampleInterval, rdd.count()))
     topList.foreach{case (count, tag) => println("%s (%s tweets)".format(tag, count))}
