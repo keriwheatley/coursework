@@ -31,6 +31,8 @@ object Main extends App {
   val ssc = new StreamingContext(sparkConf, Seconds(2))
   val stream = TwitterUtils.createStream(ssc, None)
 
+  val startTimeMillis = System.currentTimeMillis()
+
   val hashTags = stream.flatMap(status => status.getText.split(" ").filter(_.startsWith("#")))
 
   val topCounts = hashTags.map((_, 1)).reduceByKeyAndWindow(_ + _, Seconds(sampleInterval))
@@ -39,12 +41,13 @@ object Main extends App {
 
   topCounts.foreachRDD(rdd => {
     val topList = rdd.take(numHashtags)
-    println(s"\nList of ${numHashtags} most popular topics during run duration of ${runDuration} seconds (%s total):".format(rdd.count()))
+    timeElasped = System.currentTimeMillis() - startTimeMillis 
+    println(s"\nList of ${numHashtags} most popular topics at ${timeElasped} seconds (%s total):".format(rdd.count()))
     topList.foreach{case (count, tag) => println("%s (%s tweets)".format(tag, count))}
   })
 
   ssc.start()
-  ssc.awaitTerminationOrTimeout(200 *1000)
+  ssc.awaitTerminationOrTimeout(runDuration * 1000)
   ssc.stop()
 }
 
