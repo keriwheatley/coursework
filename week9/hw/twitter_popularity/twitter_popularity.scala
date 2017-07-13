@@ -17,15 +17,12 @@ object twitter_popularity {
       System.exit(1)
     }
 
-    override val args: Array[String] = if (super.args(4).isEmpty) Array("10") else super.args(4)
-    println("args(0) = " + args(0))
-
     // StreamingExamples.setStreamingLogLevels()
 
     val Array(consumerKey, consumerSecret, accessToken, accessTokenSecret) = args.take(4)
-    // val numHashtags = args(4)
-    // val sampleInterval = args(5)
-    // val runDuration = args(6)
+    val numHashtags = args(4)
+    val sampleInterval = args(5)
+    val runDuration = args(6)
 
     // Set the system properties so that Twitter4j library used by twitter stream
     // can use them to generat OAuth credentials
