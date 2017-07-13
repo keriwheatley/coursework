@@ -1,3 +1,5 @@
+package org.apache.spark.examples.streaming
+
 import org.apache.spark.streaming.{Seconds, StreamingContext}
 import org.apache.spark.SparkContext._
 import org.apache.spark.streaming.twitter._
