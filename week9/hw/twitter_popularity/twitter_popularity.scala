@@ -15,7 +15,7 @@ object Main extends App {
     System.exit(1)
   }
 
-  // StreamingExamples.setStreamingLogLevels()
+  StreamingExamples.setStreamingLogLevels()
 
   val Array(consumerKey, consumerSecret, accessToken, accessTokenSecret) = args.take(4)
   val filters = args.takeRight(args.length - 4)
