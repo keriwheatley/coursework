@@ -12,9 +12,9 @@ object Main extends App {
   }
 
   val Array(consumerKey, consumerSecret, accessToken, accessTokenSecret) = args.take(4)
-  val numHashtags = if (args(4).isEmpty) 10 else args(4)
-  val sampleInterval = if (args(5).isEmpty) 30 else args(5)
-  val runDuration = if (args(6).isEmpty) 1800 else args(6)
+  val numHashtags = if (args(4).isEmpty) "10".toInt else args(4)
+  val sampleInterval = if (args(5).isEmpty) "30".toInt else args(5)
+  val runDuration = if (args(6).isEmpty) "1800".toInt else args(6)
   println(s"Number hashtags: ${numHashtags}")
   println(s"Length of sample intervals (in seconds): ${sampleInterval}")
   println(s"Duration of program run (in seconds): ${runDuration}")
