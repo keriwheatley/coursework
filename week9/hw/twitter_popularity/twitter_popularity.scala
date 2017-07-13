@@ -41,7 +41,7 @@ object Main extends App {
 
   topCounts.foreachRDD(rdd => {
     val topList = rdd.take(numHashtags)
-    timeElasped = System.currentTimeMillis() - startTimeMillis 
+    val timeElasped = System.currentTimeMillis() - startTimeMillis 
     println(s"\nList of ${numHashtags} most popular topics at ${timeElasped} seconds (%s total):".format(rdd.count()))
     topList.foreach{case (count, tag) => println("%s (%s tweets)".format(tag, count))}
   })
