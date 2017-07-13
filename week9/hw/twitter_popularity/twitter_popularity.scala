@@ -12,9 +12,12 @@ object Main extends App {
   }
 
   val Array(consumerKey, consumerSecret, accessToken, accessTokenSecret) = args.take(4)
-  val numHashtags = if (args(4).isEmpty) "10".toInt else args(4)
-  val sampleInterval = if (args(5).isEmpty) "30".toInt else args(5)
-  val runDuration = if (args(6).isEmpty) "1800".toInt else args(6)
+  val numHashtags:Int = 10
+  val sampleInterval:Int = 60
+  val runDuration:Int = 1800
+  // val numHashtags:Int = if (args(4).isEmpty) 10 else args(4)
+  // val sampleInterval:Int = if (args(5).isEmpty) 30 else args(5)
+  // val runDuration:Int = if (args(6).isEmpty) 1800 else args(6)
   println(s"Number hashtags: ${numHashtags}")
   println(s"Length of sample intervals (in seconds): ${sampleInterval}")
   println(s"Duration of program run (in seconds): ${runDuration}")
@@ -34,13 +37,13 @@ object Main extends App {
 
   val hashTags = stream.flatMap(status => status.getText.split(" ").filter(_.startsWith("#")))
 
-  val topCounts = hashTags.map((_, 1)).reduceByKeyAndWindow(_ + _, Seconds(60))
+  val topCounts = hashTags.map((_, 1)).reduceByKeyAndWindow(_ + _, Seconds(sampleInterval))
                    .map{case (topic, count) => (count, topic)}
                    .transform(_.sortByKey(false))
 
   topCounts.foreachRDD(rdd => {
-    val topList = rdd.take(10)
-    println("\nThe %i Most popular topics in last %s seconds (%s total):".format(10, 60, rdd.count()))
+    val topList = rdd.take(numHashtags)
+    println("\nThe %i Most popular topics in last %s seconds (%s total):".format(numHashtags, sampleInterval, rdd.count()))
     topList.foreach{case (count, tag) => println("%s (%s tweets)".format(tag, count))}
   })
 
