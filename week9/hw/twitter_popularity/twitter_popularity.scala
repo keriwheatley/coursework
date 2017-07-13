@@ -1,9 +1,10 @@
 package org.apache.spark.examples.streaming
 
-import org.apache.spark.streaming.{Seconds, StreamingContext, StreamingExamples}
+import org.apache.spark.streaming.{Seconds, StreamingContext}
 import org.apache.spark.SparkContext._
 import org.apache.spark.streaming.twitter._
 import org.apache.spark.SparkConf
+import org.apache.spark.examples.streaming
 
 // Number hastags display, Sample interval, App Duration
 object Main extends App {
