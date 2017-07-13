@@ -15,7 +15,7 @@ object Main extends App {
     System.exit(1)
   }
 
-  override val args(4) = if (super.args(4).isEmpty) 10 else super.args(4)
+  override val super.args(4) = if (super.args(4).isEmpty) 10 else super.args(4)
   println("args(4) = " + args(4))
 
   // StreamingExamples.setStreamingLogLevels()
@@ -34,7 +34,7 @@ object Main extends App {
 
   val sparkConf = new SparkConf().setAppName("TwitterPopularTags")
   val ssc = new StreamingContext(sparkConf, Seconds(2))
-  val stream = TwitterUtils.createStream(ssc, None, filters)
+  val stream = TwitterUtils.createStream(ssc, None)
 
   val hashTags = stream.flatMap(status => status.getText.split(" ").filter(_.startsWith("#")))
 
