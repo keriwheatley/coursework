@@ -14,7 +14,7 @@ object Main extends App {
   val Array(consumerKey, consumerSecret, accessToken, accessTokenSecret) = args.take(4)
   val numHashtags:Int = 10
   val sampleInterval:Int = 60
-  val runDuration:Int = 1800
+  val runDuration:Int = 180
   // val numHashtags:Int = if (args(4).isEmpty) 10 else args(4)
   // val sampleInterval:Int = if (args(5).isEmpty) 30 else args(5)
   // val runDuration:Int = if (args(6).isEmpty) 1800 else args(6)
@@ -45,7 +45,7 @@ object Main extends App {
 
   ssc.start()
   ssc.awaitTermination(runDuration)
-  ssc.stop()
+  // ssc.stop()
 }
 
 
