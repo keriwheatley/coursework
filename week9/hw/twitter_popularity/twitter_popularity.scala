@@ -44,7 +44,7 @@ object Main extends App {
   })
 
   ssc.start()
-  ssc.awaitTermination(runDuration)
+  ssc.awaitTermination(3000)
   // ssc.stop()
 }
 
