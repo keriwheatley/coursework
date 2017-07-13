@@ -19,6 +19,10 @@ object Main extends App {
   println(s"Length of sample intervals (in seconds): ${sampleInterval}")
   println(s"Duration of program run (in seconds): ${runDuration}")
 
+  println(numHashtags)
+  println(sampleInterval)
+  println(runDuration)
+
   System.setProperty("twitter4j.oauth.consumerKey", consumerKey)
   System.setProperty("twitter4j.oauth.consumerSecret", consumerSecret)
   System.setProperty("twitter4j.oauth.accessToken", accessToken)
@@ -30,7 +34,7 @@ object Main extends App {
 
   val hashTags = stream.flatMap(status => status.getText.split(" ").filter(_.startsWith("#")))
 
-  val topCounts = hashTags.map((_, 1)).reduceByKeyAndWindow(_ + _, Seconds(sampleInterval))
+  val topCounts = hashTags.map((_, 1)).reduceByKeyAndWindow(_ + _, Seconds(60))
                    .map{case (topic, count) => (count, topic)}
                    .transform(_.sortByKey(false))
 
