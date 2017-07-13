@@ -37,13 +37,17 @@ object Main extends App {
 
   val hashTags = stream.flatMap(status => status.getText.split(" ").filter(_.startsWith("#")))
 
+  println(hashTags)
+
   val topCounts = hashTags.map((_, 1)).reduceByKeyAndWindow(_ + _, Seconds(sampleInterval))
                    .map{case (topic, count) => (count, topic)}
                    .transform(_.sortByKey(false))
 
+  println(topCounts)
+  
   topCounts.foreachRDD(rdd => {
     val topList = rdd.take(numHashtags)
-    println(s"\nThe ${numHashtags} most popular topics in last ${sampleInterval} seconds (%s total):".format(rdd.count()))
+    println(s"\nRunning list of ${numHashtags} most popular topics over run duration of ${runDuration} seconds (%s total):".format(rdd.count()))
     topList.foreach{case (count, tag) => println("%s (%s tweets)".format(tag, count))}
   })
 
