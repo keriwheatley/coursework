@@ -9,7 +9,7 @@ object twitter_popularity {
   def main(consumerKey:String, consumerSecret:String, accessToken:String, accessTokenSecret:String, numHashtags:Int = 10, sampleInterval:Int = 60, runDuration:Int = 1800) {
 // object Main extends App {
 
-    println(s"I got executed with ${args size} args, they are: ${args mkString ", "}")
+    // println(s"I got executed with ${args size} args, they are: ${args mkString ", "}")
 
     if (args.length < 4) {
       System.err.println("Usage: TwitterPopularTags <consumer key> <consumer secret> " +
@@ -19,10 +19,11 @@ object twitter_popularity {
 
     // StreamingExamples.setStreamingLogLevels()
 
-    val Array(consumerKey, consumerSecret, accessToken, accessTokenSecret) = args.take(4)
-    val numHashtags = args(4)
-    val sampleInterval = args(5)
-    val runDuration = args(6)
+    // val Array(consumerKey, consumerSecret, accessToken, accessTokenSecret) = args.take(4)
+    // val numHashtags = args(4)
+    // val sampleInterval = args(5)
+    // val runDuration = args(6)
+    println(consumerKey)
 
     // Set the system properties so that Twitter4j library used by twitter stream
     // can use them to generat OAuth credentials
