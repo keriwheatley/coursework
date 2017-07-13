@@ -2,6 +2,7 @@ lazy val common = Seq(
   organization := "week9.mids",
   version := "0.1.0",
   scalaVersion := "2.10.6",
+  enablePlugins(AssemblyPlugin),
   libraryDependencies ++= Seq(
     "org.apache.spark" %% "spark-streaming" % "1.6.1" % "provided",
     "org.apache.spark" %% "spark-streaming-twitter" % "1.6.1",
