@@ -15,8 +15,8 @@ object Main extends App {
     System.exit(1)
   }
 
-  override val super.args(4) = if (super.args(4).isEmpty) 10 else super.args(4)
-  println("args(4) = " + args(4))
+  // override val args(4) = if (super.args(4).isEmpty) 10 else super.args(4)
+  println("args(4) = " + args(3))
 
   // StreamingExamples.setStreamingLogLevels()
 
