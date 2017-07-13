@@ -8,8 +8,6 @@ import org.apache.spark.SparkConf
 // Number hastags display, Sample interval, App Duration
 object Main extends App {
 
-  setLogLevel("WARN")
-
   println(s"I got executed with ${args size} args, they are: ${args mkString ", "}")
 
   if (args.length < 4) {
