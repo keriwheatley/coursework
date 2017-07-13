@@ -6,7 +6,7 @@ import org.apache.spark.streaming.twitter._
 import org.apache.spark.SparkConf
 
 object twitter_popularity {
-  def main(args: consumerKey:String, consumerSecret:String, accessToken:String, accessTokenSecret:String, numHashtags:Int = 10, sampleInterval:Int = 60, runDuration:Int = 1800) {
+  def main(consumerKey:String, consumerSecret:String, accessToken:String, accessTokenSecret:String, numHashtags:Int = 10, sampleInterval:Int = 60, runDuration:Int = 1800) {
 // object Main extends App {
 
     println(s"I got executed with ${args size} args, they are: ${args mkString ", "}")
