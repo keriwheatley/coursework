@@ -1,4 +1,4 @@
-package org.apache.spark.examples.streaming
+// package org.apache.spark.examples.streaming
 
 import org.apache.spark.streaming.{Seconds, StreamingContext}
 import org.apache.spark.SparkContext._
@@ -7,6 +7,9 @@ import org.apache.spark.SparkConf
 
 // Number hastags display, Sample interval, App Duration
 object Main extends App {
+
+  setLogLevel("WARN")
+
   println(s"I got executed with ${args size} args, they are: ${args mkString ", "}")
 
   if (args.length < 4) {
@@ -15,7 +18,7 @@ object Main extends App {
     System.exit(1)
   }
 
-  StreamingExamples.setStreamingLogLevels()
+  // StreamingExamples.setStreamingLogLevels()
 
   val Array(consumerKey, consumerSecret, accessToken, accessTokenSecret) = args.take(4)
   val filters = args.takeRight(args.length - 4)
