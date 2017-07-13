@@ -17,6 +17,9 @@ object Main extends App {
   val numHashtags:Int = 10
   val sampleInterval:Int = 60
   val runDuration:Int = 180
+  println(args(4))
+  println(args(5))
+  println(args(6))
   // val numHashtags:Int = if (args(4).isEmpty) 10 else args(4)
   // val sampleInterval:Int = if (args(5).isEmpty) 30 else args(5)
   // val runDuration:Int = if (args(6).isEmpty) 1800 else args(6)
@@ -30,12 +33,12 @@ object Main extends App {
   System.setProperty("twitter4j.oauth.accessTokenSecret", accessTokenSecret)
 
   val sparkConf = new SparkConf().setAppName("TwitterPopularTags")
-  val ssc = new StreamingContext(sparkConf)
+  val ssc = new StreamingContext(sparkConf, Seconds(1))
   val stream = TwitterUtils.createStream(ssc, None)
 
   val hashTags = stream.flatMap(status => status.getText.split(" ").filter(_.startsWith("#")))
 
-  val topCounts = hashTags.map((_, 1)).reduceByKeyAndWindow(_ + _, Seconds(sampleInterval))
+  val topCounts = hashTags.map((_, 1)).reduceByKeyAndWindow(_ + _, Seconds(sampleInterval),Seconds(10))
                    .map{case (topic, count) => (count, topic)}
                    .transform(_.sortByKey(false))
 
