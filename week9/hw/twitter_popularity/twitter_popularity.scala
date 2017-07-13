@@ -34,7 +34,7 @@ object twitter_popularity {
 
     val sparkConf = new SparkConf().setAppName("TwitterPopularTags")
     val ssc = new StreamingContext(sparkConf, Seconds(2))
-    val stream = TwitterUtils.createStream(ssc, None, filters)
+    val stream = TwitterUtils.createStream(ssc, None)
 
     val hashTags = stream.flatMap(status => status.getText.split(" ").filter(_.startsWith("#")))
 
