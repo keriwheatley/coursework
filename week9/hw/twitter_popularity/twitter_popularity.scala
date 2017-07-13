@@ -1,5 +1,3 @@
-// package org.apache.spark.examples.streaming
-
 import org.apache.spark.streaming.{Seconds, StreamingContext}
 import org.apache.spark.SparkContext._
 import org.apache.spark.streaming.twitter._
@@ -7,26 +5,20 @@ import org.apache.spark.SparkConf
 
 object Main extends App {
 
-  println(s"I got executed with ${args size} args, they are: ${args mkString ", "}")
-
   if (args.length < 4) {
     System.err.println("Usage: TwitterPopularTags <consumer key> <consumer secret> " +
-      "<access token> <access token secret> <[optional] number hashtags> <[optional] sample interval> <[optional] run duration>")
+      "<access token> <access token secret> <[optional] number hashtags> <[optional] sample interval in seconds> <[optional] run duration in seconds>")
     System.exit(1)
   }
 
-  // override val args(4) = if (super.args(4).isEmpty) 10 else super.args(4)
-  println("args(4) = " + args(3))
-
-  // StreamingExamples.setStreamingLogLevels()
-
   val Array(consumerKey, consumerSecret, accessToken, accessTokenSecret) = args.take(4)
   val numHashtags = if (args(4).isEmpty) 10 else args(4)
-  val sampleInterval = args(5)
-  val runDuration = args(6)
+  val sampleInterval = if (args(5).isEmpty) 30 else args(5)
+  val runDuration = if (args(6).isEmpty) 1800 else args(6)
+  println(s"Number hashtags: ${numHashtags}")
+  println(s"Length of sample intervals (in seconds): ${sampleInterval}")
+  println(s"Duration of program run (in seconds): ${runDuration}")
 
-  // Set the system properties so that Twitter4j library used by twitter stream
-  // can use them to generat OAuth credentials
   System.setProperty("twitter4j.oauth.consumerKey", consumerKey)
   System.setProperty("twitter4j.oauth.consumerSecret", consumerSecret)
   System.setProperty("twitter4j.oauth.accessToken", accessToken)
@@ -38,19 +30,13 @@ object Main extends App {
 
   val hashTags = stream.flatMap(status => status.getText.split(" ").filter(_.startsWith("#")))
 
-  val topCounts60 = hashTags.map((_, 1)).reduceByKeyAndWindow(_ + _, Seconds(60))
+  val topCounts = hashTags.map((_, 1)).reduceByKeyAndWindow(_ + _, Seconds(sampleInterval))
                    .map{case (topic, count) => (count, topic)}
                    .transform(_.sortByKey(false))
 
-  val topCounts10 = hashTags.map((_, 1)).reduceByKeyAndWindow(_ + _, Seconds(10))
-                   .map{case (topic, count) => (count, topic)}
-                   .transform(_.sortByKey(false))
-
-
-  // Print popular hashtags
   topCounts60.foreachRDD(rdd => {
-    val topList = rdd.take(10)
-    println("\nPopular topics in last 60 seconds (%s total):".format(rdd.count()))
+    val topList = rdd.take(numHashtags)
+    println("\nThe %i Most popular topics in last %s seconds (%s total):".format(numHashtags, sampleInterval, rdd.count()))
     topList.foreach{case (count, tag) => println("%s (%s tweets)".format(tag, count))}
   })
 
