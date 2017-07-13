@@ -30,7 +30,7 @@ object Main extends App {
   System.setProperty("twitter4j.oauth.accessTokenSecret", accessTokenSecret)
 
   val sparkConf = new SparkConf().setAppName("TwitterPopularTags")
-  val ssc = new StreamingContext(sparkConf, Seconds(60))
+  val ssc = new StreamingContext(sparkConf)
   val stream = TwitterUtils.createStream(ssc, None)
 
   val hashTags = stream.flatMap(status => status.getText.split(" ").filter(_.startsWith("#")))
@@ -48,7 +48,7 @@ object Main extends App {
 
   ssc.start()
   ssc.awaitTerminationOrTimeout(runDuration * 1000)
-  println(s"Max duration reached. Ending program.")
+  println(s"\nMax duration reached. Ending program.")
   ssc.stop()
 }
 
