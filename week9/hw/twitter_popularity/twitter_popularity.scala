@@ -22,10 +22,6 @@ object Main extends App {
   println(s"Length of sample intervals (in seconds): ${sampleInterval}")
   println(s"Duration of program run (in seconds): ${runDuration}")
 
-  println(numHashtags)
-  println(sampleInterval)
-  println(runDuration)
-
   System.setProperty("twitter4j.oauth.consumerKey", consumerKey)
   System.setProperty("twitter4j.oauth.consumerSecret", consumerSecret)
   System.setProperty("twitter4j.oauth.accessToken", accessToken)
@@ -37,22 +33,19 @@ object Main extends App {
 
   val hashTags = stream.flatMap(status => status.getText.split(" ").filter(_.startsWith("#")))
 
-  println(hashTags)
-
   val topCounts = hashTags.map((_, 1)).reduceByKeyAndWindow(_ + _, Seconds(sampleInterval))
                    .map{case (topic, count) => (count, topic)}
                    .transform(_.sortByKey(false))
 
-  println(topCounts)
-  
   topCounts.foreachRDD(rdd => {
     val topList = rdd.take(numHashtags)
-    println(s"\nRunning list of ${numHashtags} most popular topics over run duration of ${runDuration} seconds (%s total):".format(rdd.count()))
+    println(s"\nL of ${numHashtags} most popular topics during run duration of ${runDuration} seconds (%s total):".format(rdd.count()))
     topList.foreach{case (count, tag) => println("%s (%s tweets)".format(tag, count))}
   })
 
   ssc.start()
-  ssc.awaitTermination()
+  ssc.awaitTermination(runDuration)
+  ssc.stop()
 }
 
 
