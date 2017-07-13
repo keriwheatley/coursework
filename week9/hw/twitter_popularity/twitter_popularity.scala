@@ -39,12 +39,12 @@ object Main extends App {
 
   topCounts.foreachRDD(rdd => {
     val topList = rdd.take(numHashtags)
-    println(s"\nL of ${numHashtags} most popular topics during run duration of ${runDuration} seconds (%s total):".format(rdd.count()))
+    println(s"\nList of ${numHashtags} most popular topics during run duration of ${runDuration} seconds (%s total):".format(rdd.count()))
     topList.foreach{case (count, tag) => println("%s (%s tweets)".format(tag, count))}
   })
 
   ssc.start()
-  ssc.awaitTermination()
+  ssc.awaitTermination(200, TimeUnit.SECONDS)
 }
 
 
