@@ -55,7 +55,6 @@ object Main extends App {
 
   ssc.start()
   ssc.awaitTermination()
-  })
 }
 
 
