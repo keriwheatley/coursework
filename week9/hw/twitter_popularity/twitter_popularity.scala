@@ -11,11 +11,11 @@ object twitter_popularity {
 
     // println(s"I got executed with ${args size} args, they are: ${args mkString ", "}")
 
-    if (args.length < 4) {
-      System.err.println("Usage: TwitterPopularTags <consumer key> <consumer secret> " +
-        "<access token> <access token secret> <[optional] number hashtags> <[optional] sample interval> <[optional] run duration>")
-      System.exit(1)
-    }
+    // if (args.length < 4) {
+    //   System.err.println("Usage: TwitterPopularTags <consumer key> <consumer secret> " +
+    //     "<access token> <access token secret> <[optional] number hashtags> <[optional] sample interval> <[optional] run duration>")
+    //   System.exit(1)
+    // }
 
     // StreamingExamples.setStreamingLogLevels()
 
