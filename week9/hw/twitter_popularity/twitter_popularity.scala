@@ -48,7 +48,7 @@ object Main extends App {
   //    status.getUserMentionEntities.(_.getScreenName))
   // } 
 
-  val hashtags = stream.map {hashtag => hashtag.getHashtagEntities.map(_.getText)}
+  val hashtags = stream.map {hashtag => hashtag.getHashtagEntities.getText()}
   hashtags.print()
 
   val users = stream.map {user => user.getUser().getScreenName()}
