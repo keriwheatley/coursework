@@ -42,11 +42,20 @@ object Main extends App {
   val ssc = new StreamingContext(sparkConf, Seconds(10))
   val stream = TwitterUtils.createStream(ssc, None)
 
-  val data = stream.map { status =>
-    (status.getHashtagEntities.map(_.getText),
-     status.getUser().getScreenName(),
-     status.getUserMentionEntities.(_.getScreenName))
-  } 
+  // val data = stream.map { status =>
+  //   (status.getHashtagEntities.map(_.getText),
+  //    status.getUser().getScreenName(),
+  //    status.getUserMentionEntities.(_.getScreenName))
+  // } 
+
+  val users = stream.map {hashtag => hashtag.getHashtagEntities.map(_.getText)}
+  users.print()
+
+  val contributors = stream.map {user => user.getUser().getScreenName()}
+  contributors.print()
+
+  val contributors = stream.map {mention => mention.getUserMentionEntities()}
+  contributors.print()
 
   // data.foreachRDD(rdd => {
   //   val topList = rdd.take(10)
@@ -56,11 +65,7 @@ object Main extends App {
 
   data.print()
 
-  // val users = stream.map {user => user.getUser().getScreenName()}
-  // users.print()
 
-  // val contributors = stream.map {contributor => contributor.getContributors()}
-  // contributors.print()
 
   ssc.start()
   ssc.awaitTerminationOrTimeout(runDuration * 1000)
