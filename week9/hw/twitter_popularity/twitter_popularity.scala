@@ -17,15 +17,15 @@ object Main extends App {
   val numHashtags:Int = 10
   val sampleInterval:Int = 60
   val runDuration:Int = 180
-  println(args(4))
-  println(args(5))
-  println(args(6))
+  print(args(4))
+  print(args(5))
+  print(args(6))
   // val numHashtags:Int = if (args(4).isEmpty) 10 else args(4)
   // val sampleInterval:Int = if (args(5).isEmpty) 30 else args(5)
   // val runDuration:Int = if (args(6).isEmpty) 1800 else args(6)
-  println(s"Number hashtags: ${numHashtags}")
-  println(s"Length of sample intervals (in seconds): ${sampleInterval}")
-  println(s"Duration of program run (in seconds): ${runDuration}")
+  print(s"Number hashtags: ${numHashtags}")
+  print(s"Length of sample intervals (in seconds): ${sampleInterval}")
+  print(s"Duration of program run (in seconds): ${runDuration}")
 
   System.setProperty("twitter4j.oauth.consumerKey", consumerKey)
   System.setProperty("twitter4j.oauth.consumerSecret", consumerSecret)
