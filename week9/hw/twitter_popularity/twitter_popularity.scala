@@ -58,7 +58,7 @@ object Main extends App {
   mentions.print()
 
   stream.foreach { status => {
-    val statusAuthor = status.getUser.getScreenName
+    val statusAuthor = status.getUser().getScreenName()
     val mentionedEntities = status.getUserMentionEntities.map(_.getScreenName).toList
     // val participants = (statusAuthor :: mentionedEntities).toSet - userName
     // val text = participants.map(p=>"@"+p).mkString(" ") + " OK."
