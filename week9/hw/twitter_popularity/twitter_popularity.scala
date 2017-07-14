@@ -45,8 +45,15 @@ object Main extends App {
   val data = stream.map { status =>
     (status.getHashtagEntities.map(_.getText),
      status.getUser().getScreenName(),
-     status.getContributors())
+     status.getUserMentionEntities())
   } 
+
+  data.foreachRDD(rdd => {
+    val topList = rdd.take(10)
+    println("\nPopular topics in last 60 seconds (%s total):".format(rdd.count()))
+    topList.foreach{case (count, tag) => println("%s (%s tweets)".format(tag, count))}
+  })
+
   data.print()
 
   // val users = stream.map {user => user.getUser().getScreenName()}
