@@ -58,6 +58,7 @@ object Main extends App {
     println("Author: " + statusAuthor + " Mentions" + mentionedEntities)
   }}
 
+  statuses.print()
   // data.foreachRDD(rdd => {
   //   val topList = rdd.take(10)
   //   println("\nPopular topics in last 60 seconds (%s total):".format(rdd.count()))
