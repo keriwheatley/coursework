@@ -43,7 +43,7 @@ object Main extends App {
   val statuses = stream.map(status => status.getText())
   statuses.print()
 
-  val users = stream.flatMap (status => status.getUser())
+  val users = stream.flatMap (status => status.getUser)
   users.print()
 
   // val authors = stream.flatMap {author => author.getName.map(_.getText) }
