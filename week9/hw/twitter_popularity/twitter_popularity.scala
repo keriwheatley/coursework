@@ -36,15 +36,15 @@ object Main extends App {
   val ssc = new StreamingContext(sparkConf, Seconds(10))
   val stream = TwitterUtils.createStream(ssc, None)
 
-  val hashtags = stream.flatMap {hashtag => status.getHashtagEntities.map(_.getText) } 
+  val hashtags = stream.flatMap {hashtag => hashtag.getHashtagEntities.map(_.getText) } 
   hashtags.print()
   // tags.countByValue().foreachRDD {rdd => val now = org.joda.time.DateTime.now() rdd.sortBy(_._2) .map(x => (x, now)) }
 
   val tweets = stream.map(status => status.getText())
   tweets.print()
 
-  val users = tweets.map(status => (status.getUser().getScreenName(), status.getUser().getFollowersCount()))
-  users.print()
+  // val users = tweets.map(status => (status.getUser.getScreenName(), status.getUser().getFollowersCount()))
+  // users.print()
 
   // statuses.foreach {status => {
   //   val statusAuthor = status.getUser.getScreenName
