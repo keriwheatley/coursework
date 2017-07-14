@@ -2,6 +2,9 @@ import org.apache.spark.streaming.{Seconds, StreamingContext}
 import org.apache.spark.SparkContext._
 import org.apache.spark.streaming.twitter._
 import org.apache.spark.SparkConf
+import twitter4j.TwitterFactory
+import twitter4j.Twitter
+import twitter4j.conf.ConfigurationBuilder
 
 object Main extends App {
 
@@ -44,14 +47,6 @@ object Main extends App {
   val tweets = stream.map(status => status.getText())
   tweets.print()
 
-  val users = tweets.map(status => (status.getUser.getScreenName, status.getUser.getFollowersCount))
-  users.print()
-
-  // statuses.foreach {status => {
-  //   val statusAuthor = status.getUser.getScreenName
-  //   // val mentionedEntities = status.getUserMentionEntities.map(_.getScreenName).toList
-  //   println(println)
-  // }}
 
 
   //   val topList = rdd.filter(numHashtags)
