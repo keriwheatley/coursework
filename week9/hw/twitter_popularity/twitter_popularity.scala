@@ -25,7 +25,6 @@ object Main extends App {
   val sampleIntervalTEST:Int = if (args(5).isEmpty) 30 else args(5)
   val runDurationTEST:Int = if (args(6).isEmpty) 1800 else args(6)
 
-  println("TEST")
   println(numHashtagsTEST)
   println(sampleIntervalTEST)
   println(runDurationTEST)
@@ -43,12 +42,13 @@ object Main extends App {
   val ssc = new StreamingContext(sparkConf, Seconds(10))
   val stream = TwitterUtils.createStream(ssc, None)
 
-  val hashtags = stream.flatMap {
-    hashtag => hashtag.getHashtagEntities.map(_.getText)} 
-  hashtags.print()
+  val info = stream.flatMap {
+    hashtag => hashtag.getHashtagEntities.map(_.getText),
+    line => line.getText()} 
+  info.print()
 
-  val tweets = stream.map(status => status.getText())
-  tweets.print()
+  // val tweets = stream.map(status => status.getText())
+  // tweets.print()
 
 
   ssc.start()
