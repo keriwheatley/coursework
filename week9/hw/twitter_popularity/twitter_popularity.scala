@@ -40,14 +40,17 @@ object Main extends App {
   hashtags.print()
   // tags.countByValue().foreachRDD {rdd => val now = org.joda.time.DateTime.now() rdd.sortBy(_._2) .map(x => (x, now)) }
 
-  val statuses = stream.map(status => status.getText())
+  val tweets = stream.map(status => status.getText())
   statuses.print()
 
-  statuses.foreach {status => {
-    val statusAuthor = status.getUser.getScreenName
-    // val mentionedEntities = status.getUserMentionEntities.map(_.getScreenName).toList
-    println(println)
-  }}
+  val users = tweets.map(status => (status.getUser().getScreenName(), status.getUser().getFollowersCount()))
+  users.print()
+  
+  // statuses.foreach {status => {
+  //   val statusAuthor = status.getUser.getScreenName
+  //   // val mentionedEntities = status.getUserMentionEntities.map(_.getScreenName).toList
+  //   println(println)
+  // }}
 
 
   //   val topList = rdd.filter(numHashtags)
