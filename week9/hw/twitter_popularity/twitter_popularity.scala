@@ -8,7 +8,7 @@ object Main extends App {
   val startTimeMillis = System.currentTimeMillis()
 
   if (args.length < 4) {
-    System.err.println("Usage: TwitterPopularTags <consumer key> <consumer secret> " +
+    System.err.print("Usage: TwitterPopularTags <consumer key> <consumer secret> " +
       "<access token> <access token secret> <[optional] number hashtags> <[optional] sample interval in seconds> <[optional] run duration in seconds>")
     System.exit(1)
   }
@@ -17,31 +17,31 @@ object Main extends App {
   val numHashtags:Int = 10
   val sampleInterval:Int = 60
   val runDuration:Int = 180
-  print(args(4))
-  print(args(5))
-  print(args(6))
+  // print(args(4))
+  // print(args(5))
+  // print(args(6))
   // val numHashtags:Int = if (args(4).isEmpty) 10 else args(4)
   // val sampleInterval:Int = if (args(5).isEmpty) 30 else args(5)
   // val runDuration:Int = if (args(6).isEmpty) 1800 else args(6)
-  print(s"Number hashtags: ${numHashtags}")
-  print(s"Length of sample intervals (in seconds): ${sampleInterval}")
-  print(s"Duration of program run (in seconds): ${runDuration}")
+  // print(s"Number hashtags: ${numHashtags}")
+  // print(s"Length of sample intervals (in seconds): ${sampleInterval}")
+  // print(s"Duration of program run (in seconds): ${runDuration}")
 
   System.setProperty("twitter4j.oauth.consumerKey", consumerKey)
   System.setProperty("twitter4j.oauth.consumerSecret", consumerSecret)
   System.setProperty("twitter4j.oauth.accessToken", accessToken)
   System.setProperty("twitter4j.oauth.accessTokenSecret", accessTokenSecret)
 
-  val sparkConf = new SparkConf().setAppName("TwitterPopularTags")
-  val ssc = new StreamingContext(sparkConf, Seconds(10))
-  val stream = TwitterUtils.createStream(ssc, None)
+  // val sparkConf = new SparkConf().setAppName("TwitterPopularTags")
+  // val ssc = new StreamingContext(sparkConf, Seconds(10))
+  // val stream = TwitterUtils.createStream(ssc, None)
 
-  val hashtags = stream.flatMap {hashtag => hashtag.getHashtagEntities.map(_.getText) } 
-  hashtags.print()
-  // tags.countByValue().foreachRDD {rdd => val now = org.joda.time.DateTime.now() rdd.sortBy(_._2) .map(x => (x, now)) }
+  // val hashtags = stream.flatMap {hashtag => hashtag.getHashtagEntities.map(_.getText) } 
+  // hashtags.print()
+  // // tags.countByValue().foreachRDD {rdd => val now = org.joda.time.DateTime.now() rdd.sortBy(_._2) .map(x => (x, now)) }
 
-  val tweets = stream.map(status => status.getText())
-  tweets.print()
+  // val tweets = stream.map(status => status.getText())
+  // tweets.print()
 
   // val users = tweets.map(status => (status.getUser.getScreenName(), status.getUser().getFollowersCount()))
   // users.print()
@@ -99,7 +99,7 @@ object Main extends App {
 
   ssc.start()
   ssc.awaitTerminationOrTimeout(runDuration * 1000)
-  println(s"\nMax duration reached. Ending program.")
+  // println(s"\nMax duration reached. Ending program.")
   ssc.stop()
 }
 
