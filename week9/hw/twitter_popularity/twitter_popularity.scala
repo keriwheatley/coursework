@@ -43,8 +43,22 @@ object Main extends App {
   val statuses = stream.map(status => status.getText())
   statuses.print()
 
-  val users = stream.flatMap (status => status.getUser)
-  users.print()
+  statuses.foreach {status => {
+    val statusAuthor = status.getUser.getScreenName
+    // val mentionedEntities = status.getUserMentionEntities.map(_.getScreenName).toList
+    println(println)
+  }}
+
+
+  //   val topList = rdd.filter(numHashtags)
+  //   println(topList)
+  //   val timeElasped = (System.currentTimeMillis() - startTimeMillis)/1000 
+  //   println(s"\nList of ${numHashtags} most popular topics at ${timeElasped} seconds (%s total):".format(rdd.count()))
+  //   topList.foreach{case (count, tag) => println("%s (%s tweets)".format(tag, count))}
+  // })
+
+  // val users = stream.flatMap (status => status.getUser)
+  // users.print()
 
   // val authors = stream.flatMap {author => author.getName.map(_.getText) }
   // authors.print()
