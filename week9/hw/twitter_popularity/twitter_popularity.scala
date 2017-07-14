@@ -33,29 +33,59 @@ object Main extends App {
   System.setProperty("twitter4j.oauth.accessTokenSecret", accessTokenSecret)
 
   val sparkConf = new SparkConf().setAppName("TwitterPopularTags")
-  val ssc = new StreamingContext(sparkConf, Seconds(1))
+  val ssc = new StreamingContext(sparkConf, Seconds(10))
   val stream = TwitterUtils.createStream(ssc, None)
 
   val hashTags = stream.flatMap(status => status.getText.split(" ").filter(_.startsWith("#")))
 
-  val topCounts = hashTags.map((_, 1)).reduceByKeyAndWindow(_ + _, Seconds(sampleInterval),Seconds(10))
-                   .map{case (topic, count) => (count, topic)}
-                   .transform(_.sortByKey(false))
 
-  topCounts.foreachRDD(rdd => {
+  hashTags.foreachRDD(rdd => {
     val topList = rdd.take(numHashtags)
-    val timeElasped = (System.currentTimeMillis() - startTimeMillis)/1000 
-    println(s"\nList of ${numHashtags} most popular topics at ${timeElasped} seconds (%s total):".format(rdd.count()))
-    topList.foreach{case (count, tag) => println("%s (%s tweets)".format(tag, count))}
+    println(topList)
+    // val timeElasped = (System.currentTimeMillis() - startTimeMillis)/1000 
+    // println(s"\nList of ${numHashtags} most popular topics at ${timeElasped} seconds (%s total):".format(rdd.count()))
+    // topList.foreach{case (count, tag) => println("%s (%s tweets)".format(tag, count))}
   })
 
-  ssc.start()
-  ssc.awaitTerminationOrTimeout(runDuration * 1000)
-  println(s"\nMax duration reached. Ending program.")
-  ssc.stop()
+
+
+  // def updateFunc(values: Seq[Int], state: Option[Int]): Option[Int] = {
+  //     val currentCount = values.sum
+  //     val previousCount = state.getOrElse(0)
+  //     Some(currentCount + previousCount)  
+  // }
+
+  // val topCounts = hashTags.map((a:Int,b:Int)).reduceByKeyAndWindow(a + b, Seconds(sampleInterval), Seconds(10))
+  //                  // .map{case (topic, count) => (count, topic)}
+  //                  // .transform(_.sortByKey(false))
+
+  // topCounts.foreachRDD(rdd => {
+  //   val topList = rdd.take(numHashtags)
+  //   println(topList)
+  //   // val timeElasped = (System.currentTimeMillis() - startTimeMillis)/1000 
+  //   // println(s"\nList of ${numHashtags} most popular topics at ${timeElasped} seconds (%s total):".format(rdd.count()))
+  //   // topList.foreach{case (count, tag) => println("%s (%s tweets)".format(tag, count))}
+  // })
+
+  // ssc.start()
+  // ssc.awaitTerminationOrTimeout(runDuration * 1000)
+  // println(s"\nMax duration reached. Ending program.")
+  // ssc.stop()
 }
 
 
 // The output of your program should be lists of hashtags that were determined 
 // to be popular during the program's execution, as well as lists of users, 
 // per-hashtag, who were related to them.
+
+
+
+// The TOP rankings over the entire 30 minutes
+
+// The top ranking over the last few minutes
+
+
+
+
+
+
