@@ -4,7 +4,7 @@ lazy val common = Seq(
   scalaVersion := "2.11.8",
   libraryDependencies ++= Seq(
     "org.apache.spark" %% "spark-streaming" % "2.2.0",
-    "org.apache.spark" %% "spark-streaming-twitter" % "2.2.0",
+    // "org.apache.spark" %% "spark-streaming-twitter" % "2.2.0",
     "com.typesafe" % "config" % "1.3.0"
   ),
   mergeStrategy in assembly <<= (mergeStrategy in assembly) { (old) =>
