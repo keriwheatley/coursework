@@ -43,9 +43,8 @@ object Main extends App {
   val statuses = stream.map(status => status.getText())
   statuses.print()
 
-  for (Status each : statuses) {
-      System.out.println("@" + each.getUser().getScreenName() + " - " + each.getText());
-  }
+  val users = stream.filter { status => status.getUser()}
+  users.print()
 
   // val authors = stream.flatMap {author => author.getName.map(_.getText) }
   // authors.print()
