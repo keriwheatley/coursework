@@ -67,10 +67,10 @@ object Main extends App {
   //   // topList.foreach{case (count, tag) => println("%s (%s tweets)".format(tag, count))}
   // })
 
-  // ssc.start()
-  // ssc.awaitTerminationOrTimeout(runDuration * 1000)
-  // println(s"\nMax duration reached. Ending program.")
-  // ssc.stop()
+  ssc.start()
+  ssc.awaitTerminationOrTimeout(runDuration * 1000)
+  println(s"\nMax duration reached. Ending program.")
+  ssc.stop()
 }
 
 
