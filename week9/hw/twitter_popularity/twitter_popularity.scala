@@ -48,9 +48,9 @@ object Main extends App {
 
   val users = stream.map {user => user.getUser().getScreenName()}
   users.print()
-  // val tweets = stream.map(status => status.getText())
-  // tweets.print()
 
+  val contributors = stream.map {contributor => contributor.getContributors()}
+  contributors.print()
 
   ssc.start()
   ssc.awaitTerminationOrTimeout(runDuration * 1000)
