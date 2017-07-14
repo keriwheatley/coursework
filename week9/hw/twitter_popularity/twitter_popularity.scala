@@ -21,9 +21,9 @@ object Main extends App {
   val sampleInterval:Int = 60
   val runDuration:Int = 180
 
-  val numHashtagsTEST:Int = if (args(4).isEmpty) 10 else args(4)
-  val sampleIntervalTEST:Int = if (args(5).isEmpty) 30 else args(5)
-  val runDurationTEST:Int = if (args(6).isEmpty) 1800 else args(6)
+  val numHashtagsTEST:String = if (args(4).isEmpty) 10 else args(4)
+  val sampleIntervalTEST:String = if (args(5).isEmpty) 30 else args(5)
+  val runDurationTEST:String = if (args(6).isEmpty) 1800 else args(6)
 
   println(numHashtagsTEST)
   println(sampleIntervalTEST)
