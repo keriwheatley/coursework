@@ -36,7 +36,8 @@ object Main extends App {
   val ssc = new StreamingContext(sparkConf, Seconds(10))
   val stream = TwitterUtils.createStream(ssc, None)
 
-  val tags = stream.flatMap {status => status.getHashtagEntities.map(_.getText)  } tags.countByValue() .foreachRDD {rdd => val now = org.joda.time.DateTime.now() rdd.sortBy(_._2) .map(x => (x, now)) .saveAsTextFile(s"~/twitter/$now") }
+  val tags = stream.flatMap {status => status.getHashtagEntities.map(_.getText)  } tags.countByValue() 
+      .foreachRDD {rdd => val now = org.joda.time.DateTime.now() rdd.sortBy(_._2) .map(x => (x, now)) }
 
   // val statuses = stream.map(status => status.getText())
   // statuses.print()
