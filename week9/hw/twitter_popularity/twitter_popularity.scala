@@ -42,29 +42,20 @@ object Main extends App {
   val ssc = new StreamingContext(sparkConf, Seconds(10))
   val stream = TwitterUtils.createStream(ssc, None)
 
-  // val data = stream.map { status =>
-  //   (status.getHashtagEntities.map(_.getText),
-  //    status.getUser().getScreenName(),
-  //    status.getUserMentionEntities.(_.getScreenName))
-  // } 
+  // val hashtags = stream.map {hashtag => hashtag.getHashtagEntities.map(_.getText).toList}
+  // hashtags.print()
 
-  val hashtags = stream.map {hashtag => hashtag.getHashtagEntities.map(_.getText).toList}
-  hashtags.print()
+  // val users = stream.map {user => user.getUser().getScreenName()}
+  // users.print()
 
-  val users = stream.map {user => user.getUser().getScreenName()}
-  users.print()
-
-  val mentions = stream.map {mention => mention.getUserMentionEntities.map(_.getScreenName).toList}
-  mentions.print()
+  // val mentions = stream.map {mention => mention.getUserMentionEntities.map(_.getScreenName).toList}
+  // mentions.print()
 
   stream.map { status => {
     val statusAuthor = status.getUser().getScreenName()
     val mentionedEntities = status.getUserMentionEntities.map(_.getScreenName).toList
-    // val participants = (statusAuthor :: mentionedEntities).toSet - userName
-    // val text = participants.map(p=>"@"+p).mkString(" ") + " OK."
-    // val reply = new StatusUpdate(text).inReplyToStatusId(status.getId)
+    val hashtags = status.getHashtagEntities.map(_.getText).toList
     println("Author: " + statusAuthor + " Mentions" + mentionedEntities)
-    // twitter.updateStatus(reply)
   }}
 
   // data.foreachRDD(rdd => {
