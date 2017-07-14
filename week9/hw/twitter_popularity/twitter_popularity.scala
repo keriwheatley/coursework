@@ -48,14 +48,24 @@ object Main extends App {
   //    status.getUserMentionEntities.(_.getScreenName))
   // } 
 
-  val hashtags = stream.map {hashtag => hashtag.getHashtagEntities.getText()}
+  val hashtags = stream.map {hashtag => hashtag.getHashtagEntities.map(_.getText)}
   hashtags.print()
 
   val users = stream.map {user => user.getUser().getScreenName()}
   users.print()
 
-  val mentions = stream.map {mention => mention.getUserMentionEntities()}
+  val mentions = stream.map {mention => mention.getUserMentionEntities.map(_.getScreenName)}
   mentions.print()
+
+  stream.foreach { status => {
+    val statusAuthor = status.getUser.getScreenName
+    val mentionedEntities = status.getUserMentionEntities.map(_.getScreenName).toList
+    // val participants = (statusAuthor :: mentionedEntities).toSet - userName
+    // val text = participants.map(p=>"@"+p).mkString(" ") + " OK."
+    // val reply = new StatusUpdate(text).inReplyToStatusId(status.getId)
+    println("Replying: " + statusAuthor)
+    // twitter.updateStatus(reply)
+  }}
 
   // data.foreachRDD(rdd => {
   //   val topList = rdd.take(10)
