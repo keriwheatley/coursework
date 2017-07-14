@@ -43,9 +43,9 @@ object Main extends App {
   val stream = TwitterUtils.createStream(ssc, None)
 
   val data = stream.map { status =>
-    (status.getHashtagEntities.getText(),
+    (status.getHashtagEntities.map(_.getText),
      status.getUser().getScreenName(),
-     status.getUserMentionEntities().getScreenName())
+     status.getUserMentionEntities.(_.getScreenName))
   } 
 
   // data.foreachRDD(rdd => {
