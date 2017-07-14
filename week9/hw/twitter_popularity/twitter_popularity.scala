@@ -48,14 +48,14 @@ object Main extends App {
   //    status.getUserMentionEntities.(_.getScreenName))
   // } 
 
-  val users = stream.map {hashtag => hashtag.getHashtagEntities.map(_.getText)}
+  val hashtags = stream.map {hashtag => hashtag.getHashtagEntities.map(_.getText)}
+  hashtags.print()
+
+  val users = stream.map {user => user.getUser().getScreenName()}
   users.print()
 
-  val contributors = stream.map {user => user.getUser().getScreenName()}
-  contributors.print()
-
-  val contributors = stream.map {mention => mention.getUserMentionEntities()}
-  contributors.print()
+  val mentions = stream.map {mention => mention.getUserMentionEntities()}
+  mentions.print()
 
   // data.foreachRDD(rdd => {
   //   val topList = rdd.take(10)
@@ -63,7 +63,7 @@ object Main extends App {
   //   topList.foreach{case (count, tag) => println("%s (%s tweets)".format(tag, count))}
   // })
 
-  data.print()
+  // data.print()
 
 
 
