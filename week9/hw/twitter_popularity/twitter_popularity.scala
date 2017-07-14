@@ -43,8 +43,12 @@ object Main extends App {
   val statuses = stream.map(status => status.getText())
   statuses.print()
 
-  val authors = stream.flatMap {author => author.getName.map(_.getText) }
-  authors.print()
+  for (Status status : statuses) {
+      println("@" + status.getUser().getScreenName() + " - " + status.getText());
+  }
+
+  // val authors = stream.flatMap {author => author.getName.map(_.getText) }
+  // authors.print()
 
   // val hashTags = stream.flatMap(status => status.getText.split(" ").filter(_.startsWith("#")))
 
