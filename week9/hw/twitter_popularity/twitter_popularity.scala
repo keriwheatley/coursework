@@ -41,11 +41,11 @@ object Main extends App {
   // tags.countByValue().foreachRDD {rdd => val now = org.joda.time.DateTime.now() rdd.sortBy(_._2) .map(x => (x, now)) }
 
   val tweets = stream.map(status => status.getText())
-  statuses.print()
+  tweets.print()
 
-  val users = tweets.map(status => (status.getUser().getScreenName(), status.getUser().getFollowersCount()))
+  val users = tweets.map(status => (status.getUser.getScreenName, status.getUser.getFollowersCount)
   users.print()
-  
+
   // statuses.foreach {status => {
   //   val statusAuthor = status.getUser.getScreenName
   //   // val mentionedEntities = status.getUserMentionEntities.map(_.getScreenName).toList
