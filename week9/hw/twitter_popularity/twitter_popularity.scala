@@ -40,7 +40,7 @@ object Main extends App {
   val stream = TwitterUtils.createStream(ssc, None)
 
   val hashtags = stream.flatMap {
-    hashtag => status.getHashtagEntities.map(_.getText)} 
+    hashtag => hashtag.getHashtagEntities.map(_.getText)} 
   hashtags.print()
   // tags.countByValue().foreachRDD {rdd => val now = org.joda.time.DateTime.now() rdd.sortBy(_._2) .map(x => (x, now)) }
 
