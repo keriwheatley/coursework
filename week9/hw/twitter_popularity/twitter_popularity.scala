@@ -42,15 +42,18 @@ object Main extends App {
   val ssc = new StreamingContext(sparkConf, Seconds(10))
   val stream = TwitterUtils.createStream(ssc, None)
 
-  val hashtags = stream.flatMap {
-    hashtag => hashtag.getHashtagEntities.map(_.getText)} 
-  hashtags.print()
+  val data = stream.Map { status =>
+    (status.getHashtagEntities.map(_.getText),
+     status.getUser().getScreenName(),
+     status.getContributors())
+  } 
+  data.print()
 
-  val users = stream.map {user => user.getUser().getScreenName()}
-  users.print()
+  // val users = stream.map {user => user.getUser().getScreenName()}
+  // users.print()
 
-  val contributors = stream.map {contributor => contributor.getContributors()}
-  contributors.print()
+  // val contributors = stream.map {contributor => contributor.getContributors()}
+  // contributors.print()
 
   ssc.start()
   ssc.awaitTerminationOrTimeout(runDuration * 1000)
