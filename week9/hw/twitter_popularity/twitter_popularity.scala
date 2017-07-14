@@ -46,7 +46,7 @@ object Main extends App {
     hashtag => hashtag.getHashtagEntities.map(_.getText)} 
   hashtags.print()
 
-  val users = stream.map {user => user.getUser()}
+  val users = stream.map {user => user.getUser().screenName()}
   users.print()
   // val tweets = stream.map(status => status.getText())
   // tweets.print()
