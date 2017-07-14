@@ -37,7 +37,7 @@ object Main extends App {
   val stream = TwitterUtils.createStream(ssc, None)
 
 
-  val statuses = tweets.map(status => status.getText())
+  val statuses = stream.map(status => status.getText())
   statuses.print()
 
   // val hashTags = stream.flatMap(status => status.getText.split(" ").filter(_.startsWith("#")))
