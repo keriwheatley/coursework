@@ -49,7 +49,7 @@ object Main extends App {
     // val timeElasped = (System.currentTimeMillis() - startTimeMillis)/1000 
     // println(s"\nList of ${numHashtags} most popular topics at ${timeElasped} seconds (%s total):".format(rdd.count()))
     // topList.foreach{case (count, tag) => println("%s (%s tweets)".format(tag, count))}
-  })
+  // })
 
 
 
