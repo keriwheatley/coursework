@@ -21,7 +21,7 @@ object Main extends App {
   val sampleInterval:Int = 60
   val runDuration:Int = 180
 
-  val numHashtagsTEST:String = if (args(4).isEmpty) "10" else args(4)
+  val numHashtagsTEST:String = if (args(4) == "") "10" else args(4)
   val sampleIntervalTEST:String = if (args(5).isEmpty) "30" else args(5)
   val runDurationTEST:String = if (args(6).isEmpty) "1800" else args(6)
 
@@ -46,7 +46,7 @@ object Main extends App {
     hashtag => hashtag.getHashtagEntities.map(_.getText)} 
   hashtags.print()
 
-  val users = stream.map {user => user.getUser().screenName()}
+  val users = stream.map {user => user.getUser().getScreenName()}
   users.print()
   // val tweets = stream.map(status => status.getText())
   // tweets.print()
