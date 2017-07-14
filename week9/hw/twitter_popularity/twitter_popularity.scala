@@ -63,7 +63,7 @@ object Main extends App {
     // val participants = (statusAuthor :: mentionedEntities).toSet - userName
     // val text = participants.map(p=>"@"+p).mkString(" ") + " OK."
     // val reply = new StatusUpdate(text).inReplyToStatusId(status.getId)
-    // println("Replying: " + statusAuthor)
+    println("Author: " + statusAuthor + " Mentions" + mentionedEntities)
     // twitter.updateStatus(reply)
   }}
 
