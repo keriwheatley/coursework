@@ -43,7 +43,7 @@ object Main extends App {
   val tweets = stream.map(status => status.getText())
   tweets.print()
 
-  val users = tweets.map(status => (status.getUser.getScreenName, status.getUser.getFollowersCount)
+  val users = tweets.map(status => (status.getUser.getScreenName, status.getUser.getFollowersCount))
   users.print()
 
   // statuses.foreach {status => {
