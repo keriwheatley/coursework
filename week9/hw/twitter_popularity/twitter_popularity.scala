@@ -42,6 +42,11 @@ object Main extends App {
   val ssc = new StreamingContext(sparkConf, Seconds(sampleInterval)) //Creates RDDs for size of sample interval
   val stream = TwitterUtils.createStream(ssc, None)
 
+  val hashTags = stream.flatMap{status => 
+          (status.getText.split(" ").filter(_.startsWith("#")),
+          status.getText.split(" ").filter(_.startsWith("@")))
+            }
+  hashTags.print()
   // val totHashtagCount = scala.collection.mutable.Map[String, Int]().withDefaultValue(0)
   
   // val hashtags = stream.map {hashtag => hashtag.getHashtagEntities.map(_.getText).toList}
@@ -50,13 +55,6 @@ object Main extends App {
 
   // val hashtagCount = hashtags.map(hashtag => (hashtag,1)).reduceByKey(_+_)
   // hashtagCount.print()
-
-  val data = stream.map {line => 
-        (line.getHashtagEntities.map(_.getText).toList.flatMap(list => list),
-        line.getUser().getScreenName())
-        // line.getUserMentionEntities.map(_.getScreenName).toList)
-  }
-
 
   // val data = stream.map {line => 
   //       (line.getHashtagEntities.map(_.getText),
