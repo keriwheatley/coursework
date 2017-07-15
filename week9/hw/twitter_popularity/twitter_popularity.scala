@@ -48,11 +48,13 @@ object Main extends App {
                   .flatMap(list => list)
   hashtags.print()
 
-  hashtags.map {line => totHashtagCount(line) += 1}
+  val hashtagUpdate = hashtags.map {line => totHashtagCount(line) += 1}
 
-  totHashtagCount.keys.foreach{key => 
-    print("Key = " + key)
-    println(" Value = " + totHashtagCount(key))}
+  hashtags.foreachRDD(rdd => rdd.map(println(" Test")))
+
+  // totHashtagCount.keys.foreach{key => 
+    // print("Key = " + key)
+    // println(" Value = " + totHashtagCount(key))}
 
   val users = stream.map {user => user.getUser().getScreenName()}
   users.print()
@@ -71,8 +73,6 @@ object Main extends App {
     topList.foreach{case (count, tag) => println("%s (%s tweets)".format(tag, count))}
   })
 
-  // statuses foreach (z => println (z._1 + " : " + z._2 + " : " + z._3))
-  // for ((a,b,c) <-statuses) printf("key: %s, value: %s\n",a,b)
 
   // val statuses = stream.map { status =>
   //   val statusAuthor = status.getUser().getScreenName()
