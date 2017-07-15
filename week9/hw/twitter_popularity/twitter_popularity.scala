@@ -58,22 +58,22 @@ object Main extends App {
     // print("Key = " + key)
     // println(" Value = " + totHashtagCount(key))}
 
-  val users = stream.map {user => user.getUser().getScreenName()}
-  users.print()
-  val mentions = stream.map {mention => mention.getUserMentionEntities.map(_.getScreenName).toList}
-                  .flatMap(list => list)
-  mentions.print()
+  // val users = stream.map {user => user.getUser().getScreenName()}
+  // users.print()
+  // val mentions = stream.map {mention => mention.getUserMentionEntities.map(_.getScreenName).toList}
+  //                 .flatMap(list => list)
+  // mentions.print()
 
-  val topCounts60 = hashtags.map((_, 1)).reduceByKeyAndWindow(_ + _, Seconds(runDuration))
-                     .map{case (topic, count) => (count, topic)}
-                     .transform(_.sortByKey(false))
+  // val topCounts60 = hashtags.map((_, 1)).reduceByKeyAndWindow(_ + _, Seconds(runDuration))
+  //                    .map{case (topic, count) => (count, topic)}
+  //                    .transform(_.sortByKey(false))
 
-  // Print popular hashtags
-  topCounts60.foreachRDD(rdd => {
-    val topList = rdd.take(10)
-    println("\nPopular topics in last 60 seconds (%s total):".format(rdd.count()))
-    topList.foreach{case (count, tag) => println("%s (%s tweets)".format(tag, count))}
-  })
+  // // Print popular hashtags
+  // topCounts60.foreachRDD(rdd => {
+  //   val topList = rdd.take(10)
+  //   println("\nPopular topics in last 60 seconds (%s total):".format(rdd.count()))
+  //   topList.foreach{case (count, tag) => println("%s (%s tweets)".format(tag, count))}
+  // })
 
 
   // val statuses = stream.map { status =>
