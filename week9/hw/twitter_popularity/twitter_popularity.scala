@@ -18,7 +18,7 @@ object Main extends App {
 
   val Array(consumerKey, consumerSecret, accessToken, accessTokenSecret) = args.take(4)
   val numHashtags:Int = 10
-  val sampleInterval:Int = 60
+  val sampleInterval:Int = 30
   val runDuration:Int = 180
 
   val numHashtagsTEST:String = if (args(4) == "") "10" else args(4)
@@ -39,29 +39,23 @@ object Main extends App {
   System.setProperty("twitter4j.oauth.accessTokenSecret", accessTokenSecret)
 
   val sparkConf = new SparkConf().setAppName("TwitterPopularTags")
-  val ssc = new StreamingContext(sparkConf, Seconds(10))
+  val ssc = new StreamingContext(sparkConf, Seconds(sampleInterval)) //Creates RDDs for size of sample interval
   val stream = TwitterUtils.createStream(ssc, None)
 
+  val totHashtagCount = scala.collection.mutable.Map[String, Int]().withDefaultValue(0)
+  
   val hashtags = stream.map {hashtag => hashtag.getHashtagEntities.map(_.getText).toList}
                   .flatMap(list => list)
   hashtags.print()
-  // stream.foreachRDD(rdd => 
-  //   {val hashtags = rdd.map {hashtag => hashtag.getHashtagEntities.map(_.getText).toList.flatMap(list => list)}
 
-  //   }) 
-  // val hashtag_list = hashtags.mapPartitions {line => distinct}
-  // collect{case i:Int => List(i); case l @ a :: b => l}.flatten
-  // hashtag_list.print()
-  // println(hashtags.flatMap(identity))
+  hashtags.map {line => totHashtagCount(line) += 1}
+  totHashtagCount.print()
 
   val users = stream.map {user => user.getUser().getScreenName()}
   users.print()
-
   val mentions = stream.map {mention => mention.getUserMentionEntities.map(_.getScreenName).toList}
                   .flatMap(list => list)
   mentions.print()
-
-  // val uniqueUser = users.map(id => Set(id)).reduce(_ ++ _)
 
   val topCounts60 = hashtags.map((_, 1)).reduceByKeyAndWindow(_ + _, Seconds(runDuration))
                      .map{case (topic, count) => (count, topic)}
