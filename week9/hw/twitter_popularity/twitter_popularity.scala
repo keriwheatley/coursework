@@ -69,8 +69,6 @@ object Main extends App {
   //           user.getUser().getScreenName()) }
   data.print()
 
-  val
-
   // hashtags.print()
 
 
