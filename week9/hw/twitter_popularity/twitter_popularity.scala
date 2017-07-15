@@ -58,11 +58,11 @@ object Main extends App {
   }
   data.print()
 
-  data.foreachRDD {rdd => for {
-    hashtag <- rdd._1
-    user = rdd._2
-    mentionedUser <- rdd._3
-  } yield (hashtag, user, mentionedUser)}
+  // data.foreachRDD {rdd => for {
+  //   hashtag <- rdd._1
+  //   user = rdd._2
+  //   mentionedUser <- rdd._3
+  // } yield (hashtag, user, mentionedUser)}
 
   // val data = stream.map { case (hashtag, user) => 
   //         (hashtag.getHashtagEntities.map(_.getText).toList,
