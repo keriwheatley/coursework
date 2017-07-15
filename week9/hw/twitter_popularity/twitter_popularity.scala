@@ -51,16 +51,20 @@ object Main extends App {
   // val mentions = stream.map {mention => mention.getUserMentionEntities.map(_.getScreenName).toList}
   // mentions.print()
 
-  val statuses = stream.map { status =>
-    val statusAuthor = status.getUser().getScreenName()
-    val mentionedEntities = status.getUserMentionEntities.map(_.getScreenName).toList
-    val hashtags = status.getHashtagEntities.map(_.getText).toList
-    // println("Author: " + statusAuthor + " Mentions" + mentionedEntities)
-  }
+  // val statuses = stream.map { status =>
+  //   val statusAuthor = status.getUser().getScreenName()
+  //   val mentionedEntities = status.getUserMentionEntities.map(_.getScreenName).toList
+  //   val hashtags = status.getHashtagEntities.map(_.getText).toList
+  //   // println("Author: " + statusAuthor + " Mentions" + mentionedEntities)
+  // }
 
-  statuses.print()
+  // statuses.print()
 
-  statuses foreach (z => println (z._1 + " : " + z._2 + " : " + z._3))
+  val m1 = Map("fname" -> "Al", "lname" -> "Alexander")
+
+  for ((k,v) <- m1) printf("key: %s, value: %s\n", k, v)
+
+  // statuses foreach (z => println (z._1 + " : " + z._2 + " : " + z._3))
   // for ((a,b,c) <-statuses) printf("key: %s, value: %s\n",a,b)
 
   // val statuses = stream.map { status =>
