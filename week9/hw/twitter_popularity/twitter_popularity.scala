@@ -51,12 +51,16 @@ object Main extends App {
   // val hashtagCount = hashtags.map(hashtag => (hashtag,1)).reduceByKey(_+_)
   // hashtagCount.print()
 
-  val data = stream.flatMap {line => 
+  val data = stream.map {line => 
         List(line.getHashtagEntities.map(_.getText).toList,
         line.getUser().getScreenName(),
         line.getUserMentionEntities.map(_.getScreenName).toList)
   }
   data.print()
+
+  val data2 = data.groupByKey()
+
+  data2.print()
 
   // data.foreachRDD {rdd => for {
   //   hashtag <- rdd._1
