@@ -52,6 +52,8 @@ object Main extends App {
 
   hashtags.foreach(line => println("\nTest"))
 
+  stream.foreach(line => println("\nTest stream"))
+
   // totHashtagCount.keys.foreach{key => 
     // print("Key = " + key)
     // println(" Value = " + totHashtagCount(key))}
