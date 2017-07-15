@@ -44,7 +44,7 @@ object Main extends App {
 
   // val totHashtagCount = scala.collection.mutable.Map[String, Int]().withDefaultValue(0)
   
-  val hashtags = stream.map {hashtag => hashtag.getHashtagEntities.map(_.getText).toList}
+  val hashtags = stream.map {hashtag => hashtag.getHashtagEntities.map(_.getText).toList.foreach( i => println(typeOf(i)))}
                   .flatMap(list => list)
   hashtags.print()
 
