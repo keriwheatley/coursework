@@ -52,7 +52,7 @@ object Main extends App {
   hashtagCount.print()
 
 
-  val data = stream.flatmap { line => 
+  val data = stream.map { line => 
     {val hashtag = hashtag.getHashtagEntities.map(_.getText).toList
       val user = user.getUser().getScreenName() }}
   data.print()
