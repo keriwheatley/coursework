@@ -58,7 +58,8 @@ object Main extends App {
     // println("Author: " + statusAuthor + " Mentions" + mentionedEntities)
   }
 
-  for ((a,b,c) <-statuses) printf("key: %s, value: %s\n",a,b)
+  statuses.print()
+  // for ((a,b,c) <-statuses) printf("key: %s, value: %s\n",a,b)
 
   // val statuses = stream.map { status =>
   //   val statusAuthor = status.getUser().getScreenName()
