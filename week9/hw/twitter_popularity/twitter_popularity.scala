@@ -51,7 +51,7 @@ object Main extends App {
   // val mentions = stream.map {mention => mention.getUserMentionEntities.map(_.getScreenName).toList}
   // mentions.print()
 
-  val statuses = stream.map { status => {
+  val statuses = stream.flatMap { status => {
     val statusAuthor = status.getUser().getScreenName()
     val mentionedEntities = status.getUserMentionEntities.map(_.getScreenName).toList
     val hashtags = status.getHashtagEntities.map(_.getText).toList
