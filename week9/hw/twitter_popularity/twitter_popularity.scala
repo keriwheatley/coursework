@@ -43,12 +43,12 @@ object Main extends App {
   val stream = TwitterUtils.createStream(ssc, None)
 
   val hashtags = stream.map {hashtag => hashtag.getHashtagEntities.map(_.getText).toList}
-  val newhashtags = hashtags.flatMap(list => list)
-  newhashtags.print()
-  // hashtags.foreachRDD(rdd => 
-    // {
-// 
-    // }) 
+                  .flatMap(list => list)
+  hashtags.print()
+  // stream.foreachRDD(rdd => 
+  //   {val hashtags = rdd.map {hashtag => hashtag.getHashtagEntities.map(_.getText).toList.flatMap(list => list)}
+
+  //   }) 
   // val hashtag_list = hashtags.mapPartitions {line => distinct}
   // collect{case i:Int => List(i); case l @ a :: b => l}.flatten
   // hashtag_list.print()
@@ -58,6 +58,7 @@ object Main extends App {
   users.print()
 
   val mentions = stream.map {mention => mention.getUserMentionEntities.map(_.getScreenName).toList}
+                  .flatMap(list => list)
   mentions.print()
 
   // val uniqueUser = users.map(id => Set(id)).reduce(_ ++ _)
