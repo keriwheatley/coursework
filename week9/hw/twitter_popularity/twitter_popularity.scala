@@ -52,7 +52,7 @@ object Main extends App {
 
   totHashtagCount.keys.foreach{key => 
     print("Key = " key)
-    println(" Value = " totHashtagCount(key))}
+    println(" Value = " + totHashtagCount(key))}
 
   val users = stream.map {user => user.getUser().getScreenName()}
   users.print()
