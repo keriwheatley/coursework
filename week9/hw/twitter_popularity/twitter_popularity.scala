@@ -52,7 +52,7 @@ object Main extends App {
 
   hashtags.foreachRDD(rdd => rdd.map {line => println("\nTest")})
 
-  stream.foreachRDD(line => println("\nTest stream"))
+  stream.foreachRDD(rdd => rdd.map {line => println("\nTest Stream")})
 
   // totHashtagCount.keys.foreach{key => 
     // print("Key = " + key)
