@@ -58,6 +58,8 @@ object Main extends App {
   }
   data.print()
 
+  data.foreach {println}  
+
   // data.for 
 
   // val result = for {
