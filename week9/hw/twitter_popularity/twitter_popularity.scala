@@ -48,7 +48,10 @@ object Main extends App {
                   .flatMap(list => list)
   hashtags.print()
 
-  val hashtagUpdate = hashtags.map {line => totHashtagCount(line) += 1}
+  val hashtagCount = hashtags.map(hashtag => (hashtag,1)).reduceByKey(_+_)
+  hashtagCount.print()
+
+  // val hashtagUpdate = hashtags.map {line => totHashtagCount(line) += 1}
 
   hashtags.foreachRDD(rdd => rdd.map {line => println("\nTest")})
 
