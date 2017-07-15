@@ -53,12 +53,14 @@ object Main extends App {
 
   val data = stream.map {line => 
         List(line.getHashtagEntities.map(_.getText).toList,
-        line.getUser().getScreenName(),
-        line.getUserMentionEntities.map(_.getScreenName).toList)
+        line.getUser().getScreenName()
+        // ,
+        // line.getUserMentionEntities.map(_.getScreenName).toList
+        )
   }
   data.print()
 
-  val data2 = data.groupByKey()
+  val data2 = data.reduceByKey()
 
   data2.print()
 
