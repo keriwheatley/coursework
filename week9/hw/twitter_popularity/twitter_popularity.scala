@@ -58,12 +58,18 @@ object Main extends App {
         line.getUserMentionEntities.map(_.getScreenName).toList)
   }
 
-  val data2 = data.flatten
+  def flatList(l: List[_]): List[Any] = l match {
+    case Nil => Nil
+    case (head: List[_]) :: tail => flatList(head) ::: flatList(tail)
+    case head :: tail => head :: flatList(tail)
+  }
+  
+  val data2 = data.map(_.flatList)
 
   // val data = stream.map { case (hashtag, user) => 
   //         (hashtag.getHashtagEntities.map(_.getText).toList,
   //           user.getUser().getScreenName()) }
-  data.print()
+  data2.print()
 
   // hashtags.print()
 
