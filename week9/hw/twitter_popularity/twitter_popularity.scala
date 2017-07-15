@@ -50,7 +50,7 @@ object Main extends App {
 
   val hashtagUpdate = hashtags.map {line => totHashtagCount(line) += 1}
 
-  hashtags.foreachRDD(rdd => rdd.map(println(" Test")))
+  hashtags.foreachRDD(rdd => rdd.map(println("\nTest")))
 
   // totHashtagCount.keys.foreach{key => 
     // print("Key = " + key)
