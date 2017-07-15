@@ -51,7 +51,7 @@ object Main extends App {
   hashtags.map {line => totHashtagCount(line) += 1}
 
   totHashtagCount.keys.foreach{key => 
-    print("Key = " key)
+    print("Key = " + key)
     println(" Value = " + totHashtagCount(key))}
 
   val users = stream.map {user => user.getUser().getScreenName()}
