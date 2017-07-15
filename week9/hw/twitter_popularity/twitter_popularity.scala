@@ -56,7 +56,7 @@ object Main extends App {
         (line.getHashtagEntities.map(_.getText).toList,
         line.getUser().getScreenName(),
         line.getUserMentionEntities.map(_.getScreenName).toList)
-  }
+  }.flatMap(list => list)
 
   // val data = stream.map { case (hashtag, user) => 
   //         (hashtag.getHashtagEntities.map(_.getText).toList,
