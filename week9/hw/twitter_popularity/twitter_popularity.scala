@@ -51,12 +51,18 @@ object Main extends App {
   // val hashtagCount = hashtags.map(hashtag => (hashtag,1)).reduceByKey(_+_)
   // hashtagCount.print()
 
-
   val data = stream.map {line => 
-        (line.getHashtagEntities.map(_.getText),
-        line.getUser().getScreenName(),
-        line.getUserMentionEntities.map(_.getScreenName).toString)
+        (line.getHashtagEntities.map(_.getText).flatMap(list => list),
+        line.getUser().getScreenName()
+        // line.getUserMentionEntities.map(_.getScreenName).toList)
   }
+
+
+  // val data = stream.map {line => 
+  //       (line.getHashtagEntities.map(_.getText),
+  //       line.getUser().getScreenName(),
+  //       line.getUserMentionEntities.map(_.getScreenName).toList)
+  // }
 
   // val result = for {
   //   hashtag <- data._1
