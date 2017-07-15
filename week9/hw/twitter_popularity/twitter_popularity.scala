@@ -43,8 +43,15 @@ object Main extends App {
   val stream = TwitterUtils.createStream(ssc, None)
 
   val hashtags = stream.map {hashtag => hashtag.getHashtagEntities.map(_.getText).toList}
-  val hashtag_list = hashtags.collect{case i:Int => List(i); case l @ a :: b => l}.flatten
-  hashtag_list.print()
+  val newhashtags = hashtags.flatMap(list => list)
+  newhashtags.print()
+  // hashtags.foreachRDD(rdd => 
+    // {
+// 
+    // }) 
+  // val hashtag_list = hashtags.mapPartitions {line => distinct}
+  // collect{case i:Int => List(i); case l @ a :: b => l}.flatten
+  // hashtag_list.print()
   // println(hashtags.flatMap(identity))
 
   val users = stream.map {user => user.getUser().getScreenName()}
