@@ -71,7 +71,7 @@ object Main extends App {
   // val data = stream.map { case (hashtag, user) => 
   //         (hashtag.getHashtagEntities.map(_.getText).toList,
   //           user.getUser().getScreenName()) }
-  data.print()
+  // data.print()
 
   // hashtags.print()
 
