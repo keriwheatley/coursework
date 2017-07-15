@@ -42,29 +42,25 @@ object Main extends App {
   val ssc = new StreamingContext(sparkConf, Seconds(10))
   val stream = TwitterUtils.createStream(ssc, None)
 
-  // val hashtags = stream.map {hashtag => hashtag.getHashtagEntities.map(_.getText).toList}
-  // hashtags.print()
+  val hashtags = stream.map {hashtag => hashtag.getHashtagEntities.map(_.getText).toList}
+  hashtags.print()
 
-  // val users = stream.map {user => user.getUser().getScreenName()}
-  // users.print()
+  val users = stream.map {user => user.getUser().getScreenName()}
+  users.print()
 
-  // val mentions = stream.map {mention => mention.getUserMentionEntities.map(_.getScreenName).toList}
-  // mentions.print()
+  val mentions = stream.map {mention => mention.getUserMentionEntities.map(_.getScreenName).toList}
+  mentions.print()
 
-  // val statuses = stream.map { status =>
-  //   val statusAuthor = status.getUser().getScreenName()
-  //   val mentionedEntities = status.getUserMentionEntities.map(_.getScreenName).toList
-  //   val hashtags = status.getHashtagEntities.map(_.getText).toList
-  //   // println("Author: " + statusAuthor + " Mentions" + mentionedEntities)
-  // }
 
-  // statuses.print()
+  val topCountsFinal = hashtags.map(_, 1)).reduceByKey(_+_)
+                        .map{case (topic, count) => (count, topic)}
+                        .transform(_.sortByKey(false))
 
-  val statuses = stream.map(
-    hashtag.getHashtagEntities.map(_.getText).toList -> user.getUser().getScreenName())
-
-  for ((k,v) <- statuses) printf("key: %s, value: %s\n", k, v)
-
+  topCountsFinal.foreachRDD(rdd => {
+    val topList = rdd.take(10)
+    println("\nPopular topics in last 60 seconds (%s total):".format(rdd.count()))
+    topList.foreach{case (count, tag) => println("%s (%s tweets)".format(tag, count))}
+  })
   // statuses foreach (z => println (z._1 + " : " + z._2 + " : " + z._3))
   // for ((a,b,c) <-statuses) printf("key: %s, value: %s\n",a,b)
 
