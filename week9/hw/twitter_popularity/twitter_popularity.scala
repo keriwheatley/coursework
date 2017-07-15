@@ -58,7 +58,7 @@ object Main extends App {
   }
   data.print()
 
-  data.foreach {println}  
+  data.foreachRDD {println}  
 
   // data.for 
 
