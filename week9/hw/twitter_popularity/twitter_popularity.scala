@@ -59,6 +59,8 @@ object Main extends App {
   }
 
   statuses.print()
+
+  statuses foreach (z => println (z._1 + " : " + z._2 + " : " + z._3))
   // for ((a,b,c) <-statuses) printf("key: %s, value: %s\n",a,b)
 
   // val statuses = stream.map { status =>
