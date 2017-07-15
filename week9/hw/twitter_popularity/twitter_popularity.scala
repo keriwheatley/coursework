@@ -52,15 +52,17 @@ object Main extends App {
   mentions.print()
 
 
-  val topCountsFinal = hashtags.map(_, 1)).reduceByKey(_+_)
-                        .map{case (topic, count) => (count, topic)}
-                        .transform(_.sortByKey(false))
+  val topCounts60 = hashtags.map((_, 1)).reduceByKeyAndWindow(_ + _, runDuration)
+                     .map{case (topic, count) => (count, topic)}
+                     .transform(_.sortByKey(false))
 
-  topCountsFinal.foreachRDD(rdd => {
+  // Print popular hashtags
+  topCounts60.foreachRDD(rdd => {
     val topList = rdd.take(10)
     println("\nPopular topics in last 60 seconds (%s total):".format(rdd.count()))
     topList.foreach{case (count, tag) => println("%s (%s tweets)".format(tag, count))}
   })
+
   // statuses foreach (z => println (z._1 + " : " + z._2 + " : " + z._3))
   // for ((a,b,c) <-statuses) printf("key: %s, value: %s\n",a,b)
 
