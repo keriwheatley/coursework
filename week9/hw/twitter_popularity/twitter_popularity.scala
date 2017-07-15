@@ -55,7 +55,7 @@ object Main extends App {
     val statusAuthor = status.getUser().getScreenName()
     val mentionedEntities = status.getUserMentionEntities.map(_.getScreenName).toList
     val hashtags = status.getHashtagEntities.map(_.getText).toList
-    println("Author: " + statusAuthor + " Mentions" + mentionedEntities)
+    // println("Author: " + statusAuthor + " Mentions" + mentionedEntities)
   }}
 
   statuses.print()
