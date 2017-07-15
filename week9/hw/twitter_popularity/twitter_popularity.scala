@@ -5,6 +5,7 @@ import org.apache.spark.SparkConf
 import twitter4j.TwitterFactory
 import twitter4j.Twitter
 import twitter4j.conf.ConfigurationBuilder
+import sqlContext.implicits._
 
 object Main extends App {
 
@@ -44,7 +45,7 @@ object Main extends App {
 
   // val totHashtagCount = scala.collection.mutable.Map[String, Int]().withDefaultValue(0)
   
-  val hashtags = stream.map {hashtag => hashtag.getHashtagEntities.map(_.getText).toList.foreach( i => i)}
+  val hashtags = stream.map {hashtag => hashtag.getHashtagEntities.map(_.getText).toList}
                   .flatMap(list => list)
   hashtags.print()
 
@@ -60,7 +61,13 @@ object Main extends App {
   }
   data.print()
 
-  // val data2 = data.flatten
+  // val data2 = data.filter
+
+  // val sqlContext = new SQLContext(sc)
+
+  data.foreachRDD { rdd =>
+      rdd.toDF().registerTempTable("df")
+  }
   // data2.print()
 
   // data.foreachRDD {rdd => for {
