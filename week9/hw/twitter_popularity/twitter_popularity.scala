@@ -5,7 +5,8 @@ import org.apache.spark.SparkConf
 import twitter4j.TwitterFactory
 import twitter4j.Twitter
 import twitter4j.conf.ConfigurationBuilder
-import sqlContext.implicits._
+import org.apache.spark.SparkContext
+import org.apache.spark.SparkContext._
 
 object Main extends App {
 
@@ -63,8 +64,8 @@ object Main extends App {
 
   // val data2 = data.filter
 
-  // val sqlContext = new SQLContext(sc)
-
+  val sqlContext = new SQLContext(sc)
+  import sqlContext.implicits._
   data.foreachRDD { rdd =>
       rdd.toDF().registerTempTable("df")
   }
