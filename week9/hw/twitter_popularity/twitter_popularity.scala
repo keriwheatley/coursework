@@ -18,7 +18,7 @@ object Main extends App {
 
   val Array(consumerKey, consumerSecret, accessToken, accessTokenSecret) = args.take(4)
   val numHashtags:Int = 10
-  val sampleInterval:Int = 30
+  val sampleInterval:Int = 2
   val runDuration:Int = 180
 
   val numHashtagsTEST:String = if (args(4) == "") "10" else args(4)
@@ -48,11 +48,11 @@ object Main extends App {
                   .flatMap(list => list)
   hashtags.print()
 
-  hashtags.map {line => 
-    {totHashtagCount(line) += 1
-      println(totHashtagCount(line) + " count " + line)
-    }}
-  // totHashtagCount.print()
+  hashtags.map {line => totHashtagCount(line) += 1}
+
+  totHashtagCount.keys.foreach{key => 
+    print("Key = " key)
+    println(" Value = " totHashtagCount(key))}
 
   val users = stream.map {user => user.getUser().getScreenName()}
   users.print()
