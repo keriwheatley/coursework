@@ -49,7 +49,7 @@ object Main extends App {
   hashtags.print()
 
   hashtags.map {line => totHashtagCount(line) += 1}
-  totHashtagCount.print()
+  // totHashtagCount.print()
 
   val users = stream.map {user => user.getUser().getScreenName()}
   users.print()
