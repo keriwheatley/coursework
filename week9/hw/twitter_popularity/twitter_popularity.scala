@@ -52,7 +52,7 @@ object Main extends App {
   // hashtagCount.print()
 
   val data = stream.map {line => 
-        (line.getHashtagEntities.map(_.getText).toList.toString),
+        (line.getHashtagEntities.map(_.getText).toList.map(_.toString),
         line.getUser().getScreenName()
         // ,
         // line.getUserMentionEntities.map(_.getScreenName).toList
@@ -60,7 +60,8 @@ object Main extends App {
   }
   data.print()
 
-  // val data2 = data.map {line => }
+  val data2 = data.flatten
+  data2.print()
 
   // data.foreachRDD {rdd => for {
   //   hashtag <- rdd._1
