@@ -43,7 +43,7 @@ object Main extends App {
   val stream = TwitterUtils.createStream(ssc, None)
 
   val hashtags = stream.map {hashtag => hashtag.getHashtagEntities.map(_.getText).toList}
-  val hashtag_list = hashtags.flatMap(x=>List(x,x,x)).collect
+  val hashtag_list = hashtags.collect{case i:Int => List(i); case l @ a :: b => l}.flatten
   hashtag_list.print()
   // println(hashtags.flatMap(identity))
 
