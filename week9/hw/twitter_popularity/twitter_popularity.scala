@@ -42,16 +42,17 @@ object Main extends App {
   val ssc = new StreamingContext(sparkConf, Seconds(10))
   val stream = TwitterUtils.createStream(ssc, None)
 
-  val hashtags = stream.map {hashtag => hashtag.getHashtagEntities.map(_.getText).toList}
-  hashtags.foreach {println}
+  val hashtags = stream.map {hashtag => hashtag.getHashtagEntities.map(_.getText)}
+  // val hashtags = stream.map {hashtag => hashtag.getHashtagEntities.map(_.getText).toList}
+  hashtags.print()
 
 
   val users = stream.map {user => user.getUser().getScreenName()}
   users.print()
 
-  val mentions = stream.map {mention => mention.getUserMentionEntities.map(_.getScreenName).toList}
-  mentions.foreach {println}
-  // mentions.print()
+  val mentions = stream.map {mention => mention.getUserMentionEntities.map(_.getScreenName)}
+  // val mentions = stream.map {mention => mention.getUserMentionEntities.map(_.getScreenName).toList}
+  mentions.print()
 
 
   val topCounts60 = hashtags.map((_, 1)).reduceByKeyAndWindow(_ + _, Seconds(runDuration))
