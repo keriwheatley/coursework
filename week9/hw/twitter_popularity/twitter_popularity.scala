@@ -48,14 +48,24 @@ object Main extends App {
                   .flatMap(list => list)
   hashtags.print()
 
-  val hashtagCount = hashtags.map(hashtag => (hashtag,hashtag,1)).reduceByKey(_+_)
+  val hashtagCount = hashtags.map(hashtag => (hashtag,1)).reduceByKey(_+_)
   hashtagCount.print()
+
+
+  val data = stream.map { case (hashtag, user) => 
+          (hashtag.getHashtagEntities.map(_.getText).toList,
+            user.getUser().getScreenName()) }
+  data.print()
+
+  // hashtags.print()
+
+
 
   // val hashtagUpdate = hashtags.map {line => totHashtagCount(line) += 1}
 
-  hashtags.foreachRDD(rdd => rdd.map {line => println("\nTest")})
+  // hashtags.foreachRDD(rdd => rdd.map {line => println("\nTest")})
 
-  stream.foreachRDD(rdd => rdd.map {line => println("\nTest Stream")})
+  // stream.foreachRDD(rdd => rdd.map {line => println("\nTest Stream")})
 
   // totHashtagCount.keys.foreach{key => 
     // print("Key = " + key)
