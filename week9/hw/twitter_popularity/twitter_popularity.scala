@@ -58,11 +58,11 @@ object Main extends App {
         line.getUserMentionEntities.map(_.getScreenName).toList)
   }
 
-  val result = for {
+  val result = data.foreach { data => {
     hashtag <- data._1
     user = data._2
     mentionedUser <- data._3
-  } yield (hashtag, user, mentionedUser)
+  }} yield (hashtag, user, mentionedUser)
 
   // val data = stream.map { case (hashtag, user) => 
   //         (hashtag.getHashtagEntities.map(_.getText).toList,
