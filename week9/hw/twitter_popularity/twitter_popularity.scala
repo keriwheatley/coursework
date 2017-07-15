@@ -52,7 +52,7 @@ object Main extends App {
   mentions.print()
 
 
-  val topCounts60 = hashtags.map((_, 1)).reduceByKeyAndWindow(_ + _, runDuration)
+  val topCounts60 = hashTags.map((_, 1)).reduceByKeyAndWindow(_ + _, Seconds(runDuration))
                      .map{case (topic, count) => (count, topic)}
                      .transform(_.sortByKey(false))
 
