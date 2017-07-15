@@ -43,8 +43,9 @@ object Main extends App {
   val stream = TwitterUtils.createStream(ssc, None)
 
   val hashtags = stream.map {hashtag => hashtag.getHashtagEntities.map(_.getText).toList}
-  val hashtag_list = hashtags.flatten
-  hashtag_list.print()
+  // val hashtag_list = hashtags.flatten
+  // hashtag_list.print()
+  println(hashtags.flatMap(identity))
 
   val users = stream.map {user => user.getUser().getScreenName()}
   users.print()
@@ -52,6 +53,7 @@ object Main extends App {
   val mentions = stream.map {mention => mention.getUserMentionEntities.map(_.getScreenName).toList}
   mentions.print()
 
+  // val uniqueUser = users.map(id => Set(id)).reduce(_ ++ _)
 
   val topCounts60 = hashtags.map((_, 1)).reduceByKeyAndWindow(_ + _, Seconds(runDuration))
                      .map{case (topic, count) => (count, topic)}
