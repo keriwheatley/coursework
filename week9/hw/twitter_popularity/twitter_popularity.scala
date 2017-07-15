@@ -54,7 +54,7 @@ object Main extends App {
 
   val data = stream.map {line => 
         (line.getHashtagEntities.map(_.getText).toList,
-        line.getUser().getScreenName()),
+        line.getUser().getScreenName(),
         line.getUserMentionEntities.map(_.getScreenName).toList)
   }
 
