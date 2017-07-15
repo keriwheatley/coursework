@@ -44,12 +44,12 @@ object Main extends App {
 
   // val totHashtagCount = scala.collection.mutable.Map[String, Int]().withDefaultValue(0)
   
-  // val hashtags = stream.map {hashtag => hashtag.getHashtagEntities.map(_.getText).toList}
-  //                 .flatMap(list => list)
-  // hashtags.print()
+  val hashtags = stream.map {hashtag => hashtag.getHashtagEntities.map(_.getText).toList}
+                  .flatMap(list => list)
+  hashtags.print()
 
-  // val hashtagCount = hashtags.map(hashtag => (hashtag,1)).reduceByKey(_+_)
-  // hashtagCount.print()
+  val hashtagCount = hashtags.map(hashtag => (hashtag,1)).reduceByKey(_+_)
+  hashtagCount.print()
 
   val data = stream.map {line => 
         (line.getHashtagEntities.map(_.getText).toList.map(_.toString),
@@ -60,8 +60,8 @@ object Main extends App {
   }
   data.print()
 
-  val data2 = data.flatten
-  data2.print()
+  // val data2 = data.flatten
+  // data2.print()
 
   // data.foreachRDD {rdd => for {
   //   hashtag <- rdd._1
