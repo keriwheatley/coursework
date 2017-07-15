@@ -48,7 +48,10 @@ object Main extends App {
                   .flatMap(list => list)
   hashtags.print()
 
-  hashtags.map {line => totHashtagCount(line) += 1}
+  hashtags.map {line => 
+    {totHashtagCount(line) += 1
+      println(totHashtagCount(line) + " count " + line)
+    }}
   // totHashtagCount.print()
 
   val users = stream.map {user => user.getUser().getScreenName()}
