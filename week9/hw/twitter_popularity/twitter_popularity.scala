@@ -63,7 +63,8 @@ object Main extends App {
 
   // val data2 = data.filter
 
-  val sqlContext = new sqlContext(sc)
+  val sc = new SparkContext(conf)
+  val sqlContext= new org.apache.spark.sql.SQLContext(sc)
   import sqlContext.implicits._
   data.foreachRDD { rdd =>
       rdd.toDF().registerTempTable("df")
