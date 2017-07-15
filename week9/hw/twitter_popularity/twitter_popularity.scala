@@ -42,17 +42,36 @@ object Main extends App {
   val ssc = new StreamingContext(sparkConf, Seconds(10))
   val stream = TwitterUtils.createStream(ssc, None)
 
-  val hashtags = stream.map {hashtag => hashtag.getHashtagEntities.map(_.getText).toList}
-  hashtags.print()
+  // val hashtags = stream.map {hashtag => hashtag.getHashtagEntities.map(_.getText).toList}
+  // hashtags.print()
 
-  val users = stream.map {user => user.getUser().getScreenName()}
-  users.print()
+  // val users = stream.map {user => user.getUser().getScreenName()}
+  // users.print()
 
-  val mentions = stream.map (hashtag => hashtag.getHashtagEntities.map(_.getText).toList,mention => mention.getUserMentionEntities.map(_.getScreenName).toList)
-  mentions.print()
+  // val mentions = stream.map {mention => mention.getUserMentionEntities.map(_.getScreenName).toList}
+  // mentions.print()
 
-  // val users = stream.map {case (hastag, user) => (user.getUser().getScreenName(),hashtag.getHashtagEntities.map(_.getText).toList}
+  val statuses = stream.map { status =>
+    val statusAuthor = status.getUser().getScreenName()
+    val mentionedEntities = status.getUserMentionEntities.map(_.getScreenName).toList
+    val hashtags = status.getHashtagEntities.map(_.getText).toList
+    // println("Author: " + statusAuthor + " Mentions" + mentionedEntities)
+  }
 
+  for ((a,b,c) <-statuses) printf("key: %s, value: %s\n",a,b)
+
+  // val statuses = stream.map { status =>
+  //   val statusAuthor = status.getUser().getScreenName()
+  //   val mentionedEntities = status.getUserMentionEntities.map(_.getScreenName).toList
+  //   val hashtags = status.getHashtagEntities.map(_.getText).toList
+  //   // println("Author: " + statusAuthor + " Mentions" + mentionedEntities)
+  // }  
+  // val statuses = stream.map ( status => (status.getUser().getScreenName(),
+  //   status.getUserMentionEntities.map(_.getScreenName).toList,
+  //   status.getHashtagEntities.map(_.getText).toList)
+  // ).toDF("author", "mentions","hashtag").writeStream
+
+  // statuses.print()
   // data.foreachRDD(rdd => {
   //   val topList = rdd.take(10)
   //   println("\nPopular topics in last 60 seconds (%s total):".format(rdd.count()))
