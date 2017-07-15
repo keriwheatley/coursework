@@ -60,7 +60,8 @@ object Main extends App {
 
   // statuses.print()
 
-  val statuses = stream.Map(hashtag.getHashtagEntities.map(_.getText).toList -> user.getUser().getScreenName())
+  val statuses = stream.map(
+    hashtag.getHashtagEntities.map(_.getText).toList -> user.getUser().getScreenName())
 
   for ((k,v) <- statuses) printf("key: %s, value: %s\n", k, v)
 
