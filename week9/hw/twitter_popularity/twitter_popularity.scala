@@ -60,9 +60,9 @@ object Main extends App {
 
   // statuses.print()
 
-  val m1 = Map("fname" -> "Al", "lname" -> "Alexander")
+  val statuses = stream.Map(hashtag.getHashtagEntities.map(_.getText).toList -> user.getUser().getScreenName())
 
-  for ((k,v) <- m1) printf("key: %s, value: %s\n", k, v)
+  for ((k,v) <- statuses) printf("key: %s, value: %s\n", k, v)
 
   // statuses foreach (z => println (z._1 + " : " + z._2 + " : " + z._3))
   // for ((a,b,c) <-statuses) printf("key: %s, value: %s\n",a,b)
@@ -89,10 +89,10 @@ object Main extends App {
 
 
 
-  // ssc.start()
-  // ssc.awaitTerminationOrTimeout(runDuration * 1000)
-  // println(s"\nMax duration reached. Ending program.")
-  // ssc.stop()
+  ssc.start()
+  ssc.awaitTerminationOrTimeout(runDuration * 1000)
+  println(s"\nMax duration reached. Ending program.")
+  ssc.stop()
 }
 
 
