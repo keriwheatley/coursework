@@ -40,9 +40,9 @@ object Main extends App {
   System.setProperty("twitter4j.oauth.accessToken", accessToken)
   System.setProperty("twitter4j.oauth.accessTokenSecret", accessTokenSecret)
 
-  // val sparkConf = new SparkConf().setAppName("TwitterPopularTags")
-  // val ssc = new StreamingContext(sparkConf, Seconds(sampleInterval))
-  // val stream = TwitterUtils.createStream(ssc, None)
+  val sparkConf = new SparkConf().setAppName("TwitterPopularTags")
+  val ssc = new StreamingContext(sparkConf, Seconds(sampleInterval))
+  val stream = TwitterUtils.createStream(ssc, None)
 
   // val data = stream.flatMap(status => 
   //   status.getHashtagEntities.map(hashtag => 
