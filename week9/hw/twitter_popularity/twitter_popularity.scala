@@ -3,8 +3,8 @@
 //   <consumerKey> <consumerSecret> <accessToken> <accessTokenSecret> \
 //   <[optional]numberHashtags> <[optional]sampleInterval> <[optional]runDuration>
 
-$SPARK_HOME/bin/spark-submit --master spark://spark1:7077 $(find target -iname "*assembly*.jar") \
-  $consumerKey $consumerSecret $accessToken $accessTokenSecret 5 120 170
+// $SPARK_HOME/bin/spark-submit --master spark://spark1:7077 $(find target -iname "*assembly*.jar") \
+//   $consumerKey $consumerSecret $accessToken $accessTokenSecret 5 120 170
 
 import org.apache.spark.streaming.{Seconds, StreamingContext}
 import org.apache.spark.SparkContext._
@@ -26,9 +26,11 @@ object Main extends App {
   var sampleInterval:Int = 120
   var runDuration:Int = 1800
 
-  if (args.length > 4) {numHashtags = args(4).toInt}
-  if (args.length > 5) {sampleInterval = args(5).toInt}
-  if (args.length > 6) {runDuration = args(6).toInt}
+  println(args.length)
+
+  // if (args.length > 4) {numHashtags = args(4).toInt}
+  // if (args.length > 5) {sampleInterval = args(5).toInt}
+  // if (args.length > 6) {runDuration = args(6).toInt}
 
   System.setProperty("twitter4j.oauth.consumerKey", consumerKey)
   System.setProperty("twitter4j.oauth.consumerSecret", consumerSecret)
