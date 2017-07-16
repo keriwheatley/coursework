@@ -24,8 +24,8 @@ object Main extends App {
   var runDuration:Int = 1800
 
   if (args.length == 5) {numHashtags = args(5)}
-  // if (args.length > 5) {sampleInterval = args(6)}
-  // if (args.length > 6) {runDuration = args(7)}
+  if (args.length == 6) {sampleInterval = args(6)}
+  if (args.length == 7) {runDuration = args(7)}
 
   println(s"Number hashtags: ${numHashtags}")
   println(s"Length of sample intervals (in seconds): ${sampleInterval}")
@@ -52,7 +52,7 @@ object Main extends App {
 
   val sampleCount = data.reduceByKeyAndWindow(aggregateFunc,Seconds(sampleInterval),Seconds(sampleInterval))
 
-  while 1.00*(System.currentTimeMillis() - startTimeMillis)/1000 < runDuration
+  // while 1.00*(System.currentTimeMillis() - startTimeMillis)/1000 < runDuration
   sampleCount.foreachRDD(rdd => {
     val topList = rdd.sortBy(-_._2._1).take(numHashtags)
     val timeElapsed = ((1.00*(System.currentTimeMillis() - startTimeMillis)/60000 * 100).round / 100.toDouble)
