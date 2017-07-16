@@ -62,7 +62,7 @@ object Main extends App {
   hashtagCount.foreachRDD(rdd => {
     val topList = rdd.sortBy(-_._2._1).take(numHashtags)
     println(s"\nPopular topics in last ${sampleInterval} seconds (%s total):".format(rdd.count()))
-    topList.foreach{case (count, tag) => println("%s %s %s %s".format(count, tag._1, tag._2, tag._3))}
+    topList.foreach{case (count, tag) => println("Count: %s  Hashtag: %s  Author: %s  Mentions: %s".format(tag._1, count, tag._2, tag._3))}
     }) 
 
 
