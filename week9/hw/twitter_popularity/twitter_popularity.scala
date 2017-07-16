@@ -57,7 +57,7 @@ object Main extends App {
 
   val sampleCount = data.reduceByKeyAndWindow(aggregateFunc,Seconds(sampleInterval),Seconds(sampleInterval))
 
-  while ((System.currentTimeMillis() - startTimeMillis)/1000) < runDuration {
+  while (((System.currentTimeMillis() - startTimeMillis)/1000) < runDuration) {
     sampleCount.foreachRDD(rdd => {
       val topList = rdd.sortBy(-_._2._1).take(numHashtags)
       val timeElapsed = ((1.00*(System.currentTimeMillis() - startTimeMillis)/60000 * 100).round / 100.toDouble)
