@@ -66,7 +66,7 @@ object Main extends App {
   // hashtagSort.print()
 
   val test = data.map(list => (list._1,list._2._1)).reduceByKey((hashtag,value) => 
-        (hashtag + value)).sortBy(_._2)
+        (hashtag + value)).takeOrdered(10, key=lambda x: x[1])
 
   test.print()
 
