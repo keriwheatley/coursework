@@ -19,13 +19,15 @@ object Main extends App {
   }
 
   val Array(consumerKey, consumerSecret, accessToken, accessTokenSecret) = args.take(4)
-  var numHashtags:Int = 8
-  var sampleInterval:Int = 20
-  var runDuration:Int = 60
+  var numHashtags:Int = 10
+  var sampleInterval:Int = 120
+  var runDuration:Int = 1800
 
-  if (args.length > 4) {numHashtags = args(5)}
-  if (args.length > 5) {sampleInterval = args(6)}
-  if (args.length > 6) {runDuration = args(7)}
+  if (args.length > 4) {
+    val hashtagArg:Int = args(5)
+    numHashtags = args(5)}
+  // if (args.length > 5) {sampleInterval = args(6)}
+  // if (args.length > 6) {runDuration = args(7)}
 
   println(s"Number hashtags: ${numHashtags}")
   println(s"Length of sample intervals (in seconds): ${sampleInterval}")
