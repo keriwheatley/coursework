@@ -59,8 +59,7 @@ object Main extends App {
        }
     }
 
-  val hashtagCount = data.reduceByKey(aggregateFunc)
-
+  val hashtagCount = data.reduceByKeyAndWindow(aggregateFunc,Seconds(30),Seconds(30))
 
   // val hashtagCount = data.reduceByKey((hashtag,value) => 
         // (hashtag._1 + value._1,hashtag._2 + value._2,hashtag._3 + value._3))
@@ -116,10 +115,10 @@ object Main extends App {
 
 
 
-  // ssc.start()
-  // ssc.awaitTerminationOrTimeout(runDuration * 1000)
-  // println(s"\nMax duration of ${runDuration} seconds reached. Ending program.")
-  // ssc.stop()
+  ssc.start()
+  ssc.awaitTerminationOrTimeout(runDuration * 1000)
+  println(s"\nMax duration of ${runDuration} seconds reached. Ending program.")
+  ssc.stop()
 }
 
 
