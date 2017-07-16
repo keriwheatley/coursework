@@ -57,7 +57,9 @@ object Main extends App {
 
   data.print()
 
-  val reduce = data.reduceByKey((key,values) => (key + values))
+  val reduce = data.reduceByKey((key,values) => (key + values.map(trait => trait._1)))
+
+  reduce.print()
     
   // val hashtagCount = hashtags.map(hashtag => (hashtag,1)).reduceByKey(_+_)
   // hashtagCount.print()
