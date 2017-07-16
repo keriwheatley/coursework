@@ -57,23 +57,24 @@ object Main extends App {
 
   val sampleCount = data.reduceByKeyAndWindow(aggregateFunc,Seconds(sampleInterval),Seconds(sampleInterval))
 
-  // while 1.00*(System.currentTimeMillis() - startTimeMillis)/1000 < runDuration
-  sampleCount.foreachRDD(rdd => {
-    val topList = rdd.sortBy(-_._2._1).take(numHashtags)
-    val timeElapsed = ((1.00*(System.currentTimeMillis() - startTimeMillis)/60000 * 100).round / 100.toDouble)
-    println(s"\n\n--------------------------------------")
-    println(s"--------------------------------------")
-    println(s"Program time elapsed: ${timeElapsed} minutes")
-    println(s"Popular hashtags in last ${sampleInterval} seconds (%s total)".format(rdd.count()))
-    var rank:Int = 1
-    topList.foreach{case (count, tag) => 
-          {val authors = tag._2.split("@").distinct.mkString("  @")
-          val mentions = tag._3.split("@").distinct.mkString("  @")
-          println("\nHashtag Ranking: %s\nNumber of Tweets: %s\nHashtag: %s\nAuthors:%s\nMentions:%s"
-          .format(rank, tag._1, count, authors, mentions))
-          rank += 1
-          }}})
-
+  while (System.currentTimeMillis() - startTimeMillis)/1000) < runDuration {
+    sampleCount.foreachRDD(rdd => {
+      val topList = rdd.sortBy(-_._2._1).take(numHashtags)
+      val timeElapsed = ((1.00*(System.currentTimeMillis() - startTimeMillis)/60000 * 100).round / 100.toDouble)
+      println(s"\n\n--------------------------------------")
+      println(s"--------------------------------------")
+      println(s"Program time elapsed: ${timeElapsed} minutes")
+      println(s"Popular hashtags in last ${sampleInterval} seconds (%s total)".format(rdd.count()))
+      var rank:Int = 1
+      topList.foreach{case (count, tag) => 
+            {val authors = tag._2.split("@").distinct.mkString("  @")
+            val mentions = tag._3.split("@").distinct.mkString("  @")
+            println("\nHashtag Ranking: %s\nNumber of Tweets: %s\nHashtag: %s\nAuthors:%s\nMentions:%s"
+            .format(rank, tag._1, count, authors, mentions))
+            rank += 1
+            }}})
+  }
+  
   val totalCount = data.reduceByKeyAndWindow(aggregateFunc,Seconds(runDuration),Seconds(runDuration))
 
   totalCount.foreachRDD(rdd => {
@@ -95,7 +96,7 @@ object Main extends App {
           }}})
 
   ssc.start()
-  ssc.awaitTerminationOrTimeout((runDuration + 15) * 1000)
+  ssc.awaitTerminationOrTimeout((runDuration + 60) * 1000)
   println(s"\nMax duration of ${runDuration} seconds reached. Ending program.")
   ssc.stop()
 }
