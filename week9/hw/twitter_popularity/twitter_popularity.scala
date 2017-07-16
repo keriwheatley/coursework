@@ -53,7 +53,7 @@ object Main extends App {
 
   // val dataSample = data.window(sampleInterval,sampleInterval)
 
-  val aggregateFunc: ((String, String, String), (String, String, String)) => (String, String, String) = {
+  val aggregateFunc: ((Int, String, String), (Int, String, String)) => (Int, String, String) = {
       case ((v1, w1, y1), (v2, w2, y2)) => {
          (v1 + v2, w1 + w2, y1 + y2)
        }
