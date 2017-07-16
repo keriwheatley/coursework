@@ -49,8 +49,8 @@ object Main extends App {
     status.getHashtagEntities.map(hashtag => 
       ("#"+hashtag.getText, 
         (1,
-          "@"+status.getUser.getName,
-          "@"+status.getUserMentionEntities().map(_.getText()).mkString("@")
+          " @"+status.getUser.getName,
+          " @"+status.getUserMentionEntities().map(_.getText()).mkString(" @")
         )
       )
     )
@@ -63,7 +63,8 @@ object Main extends App {
     val topList = rdd.sortBy(-_._2._1).take(numHashtags)
     println(s"\nPopular topics in last ${sampleInterval} seconds (%s total):".format(rdd.count()))
     topList.foreach{case (count, tag) => 
-      println("Count: %s  Hashtag: %s  Authors: %s  Mentions: %s".format(tag._1, count, tag._2.replace('@', ' @'), tag._3.replace('@', ' @')))}
+          println("\n\nCount: %s  \nHashtag: %s  \nAuthors: %s  \nMentions: %s"
+          .format(tag._1, count, tag._2, tag._3))}
     }) 
 
 
