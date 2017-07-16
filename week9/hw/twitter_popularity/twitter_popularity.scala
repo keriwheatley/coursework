@@ -57,14 +57,14 @@ object Main extends App {
   )
 
   val hashtagCount = data.reduceByKey((hashtag,value) => 
-        (hashtag._1 + value._1,hashtag._2 + value._2,hashtag._3 + value._3)).sortByKey(false)
-        .sortBy((hashtag,value) => value._1)
+        (hashtag._1 + value._1,hashtag._2 + value._2,hashtag._3 + value._3))
 
   hashtagCount.print()
 
-  // hashtagCount.top(2, key=lambda items: items[0])
+  val hashtagSort = hashtagCount.sortBy((hashtag,value) => value._1)
 
-
+  hashtagSort.print()
+  
   // val hashtagAuthor = data.map(line => (line._1,line._2._2))
   //               .reduceByKey((hashtag,author) => (hashtag + author))
 
