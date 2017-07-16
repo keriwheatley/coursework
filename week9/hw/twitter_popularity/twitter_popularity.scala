@@ -101,7 +101,7 @@ object Main extends App {
           .format(rank, tag._1, count, authors, mentions))
           rank += 1
           }}})
-  totalCount.saveAsTextFile('output.txt')
+  totalCount.saveAsTextFile("output.txt")
 
   // Start stream, wait for run duration, stop stream
   ssc.start()
