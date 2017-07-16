@@ -61,14 +61,14 @@ object Main extends App {
 
   hashtagCount.print()
 
-  val hashtagSort = hashtagCount.mapValues(v => v.sortBy(x => x._1))
+  // val hashtagSort = hashtagCount.map(lines => lines).sortBy(x => x._1))
 
-  hashtagSort.print()
+  // hashtagSort.print()
 
-  // val hashtagAuthor = data.map(line => (line._1,line._2._2))
-  //               .reduceByKey((hashtag,author) => (hashtag + author))
+  val hashtagCount = data.map(list => (list._1,list._2._1)).reduceByKey((hashtag,value) => 
+        (hashtag._1 + value._1))
 
-  // hashtagAuthor.print()
+  hashtagCount.print()
 
   // // // Print popular hashtags
   // topCounts60.foreachRDD(rdd => {
@@ -87,26 +87,6 @@ object Main extends App {
 
   // val hashtagCount = hashtags.map(hashtag => (hashtag,1)).reduceByKey(_+_)
   // hashtagCount.print()
-
-  // val data = stream.map {line => 
-  //       (line.getHashtagEntities.map(_.getText).toList.map(_.toString),
-  //       line.getUser().getScreenName()
-  //       // ,
-  //       // line.getUserMentionEntities.map(_.getScreenName).toList
-  //       )
-  // }
-  // data.print()
-
-  // val data2 = data.filter
-
-  // val sc = new SparkContext(conf)
-  // val sqlContext= new org.apache.spark.sql.SQLContext(sc)
-  // import sqlContext.implicits._
-  // data.foreachRDD { rdd =>
-  //     rdd.toDF().registerTempTable("df")
-  // }
-  // data2.print()
-
 
 
   // val hashtagUpdate = hashtags.map {line => totHashtagCount(line) += 1}
