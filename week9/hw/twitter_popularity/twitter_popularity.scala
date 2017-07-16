@@ -18,7 +18,7 @@ object Main extends App {
 
   val Array(consumerKey, consumerSecret, accessToken, accessTokenSecret) = args.take(4)
   val numHashtags:Int = 10
-  val sampleInterval:Int = 2
+  val sampleInterval:Int = 60
   val runDuration:Int = 180
 
   val numHashtagsTEST:String = if (args(4) == "") "10" else args(4)
@@ -63,14 +63,9 @@ object Main extends App {
   hashtagCount.print()
 
   val hashtagAuthor = data.map(line => (line._1,line._2._2))
-                .reduceByKey((hashtag,author) => (hashtag + author))
+                .aggregateByKey((hashtag,author) => (hashtag + author))
 
   hashtagAuthor.print()
-
-  val hashtagCount = data.map(line => (line._1,line._2._1,line._2._2))
-                .reduceByKey((hashtag,count,author) => (hashtag + count + author))
-
-  hashtagCount.print()
 
   // val hashtagCount = hashtags.map(hashtag => (hashtag,1)).reduceByKey(_+_)
   // hashtagCount.print()
