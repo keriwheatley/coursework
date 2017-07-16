@@ -53,7 +53,7 @@ object Main extends App {
 
   // val dataSample = data.window(sampleInterval,sampleInterval)
 
-  val hashtagCount = data.reduceByKeyAndWindow((hashtag,value) => 
+  val hashtagCount = data.reduceByKeyAndWindow((hashtag:Array[String],value) => 
         (hashtag._1 + value._1,hashtag._2 + value._2,hashtag._3 + value._3),
         Seconds(60), Seconds(1))
 
