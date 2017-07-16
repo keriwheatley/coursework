@@ -10,7 +10,7 @@ object Main extends App {
 
   val startTimeMillis = System.currentTimeMillis()
 
-  println("Program time elasped: 0 seconds")
+  println("Program time elapsed: 0 minutes")
 
   if (args.length < 4) {
     System.err.println("Usage: TwitterPopularTags <consumer key> <consumer secret> " +
@@ -48,20 +48,20 @@ object Main extends App {
     status.getHashtagEntities.map(hashtag => 
       ("#"+hashtag.getText, 
         (1,
-          " @"+status.getUser.getName,
-          " @"+status.getUserMentionEntities().map(_.getText()).mkString(" @")))))
+          "  @"+status.getUser.getName,
+          "  @"+status.getUserMentionEntities().map(_.getText()).mkString(" @")))))
 
   val hashtagCount = data.reduceByKey((hashtag,value) => 
         (hashtag._1 + value._1,hashtag._2 + value._2,hashtag._3 + value._3))
 
   hashtagCount.foreachRDD(rdd => {
     val topList = rdd.sortBy(-_._2._1).take(numHashtags)
-    val timeElasped = (System.currentTimeMillis() - startTimeMillis)/1000
-    println(s"\n\nProgram time elasped: ${timeElasped} seconds")
+    val timeElapsed = (System.currentTimeMillis() - startTimeMillis)/60000
+    println(s"\n\nProgram time elapsed: ${timeElapsed} minutes")
     println(s"Popular topics in last ${sampleInterval} seconds (%s total):".format(rdd.count()))
     topList.foreach{case (count, tag) => 
           println("\nCount: %s  \nHashtag: %s  \nAuthors:%s  \nMentions:%s"
-          .format(tag._1, count, tag._2, tag._3))}}) 
+          .format(tag._1, count, tag._2, tag._3))}})
 
 
   // val hashtagSort = hashtagCount.map(lines => lines).sortBy(x => x._1))
