@@ -17,7 +17,7 @@ object Main extends App {
   }
 
   val Array(consumerKey, consumerSecret, accessToken, accessTokenSecret) = args.take(4)
-  val numHashtags:Int = 10
+  val numHashtags:Int = 8
   val sampleInterval:Int = 60
   val runDuration:Int = 180
 
@@ -25,9 +25,9 @@ object Main extends App {
   val sampleIntervalTEST:String = if (args(5).isEmpty) "30" else args(5)
   val runDurationTEST:String = if (args(6).isEmpty) "1800" else args(6)
 
-  println(numHashtagsTEST)
-  println(sampleIntervalTEST)
-  println(runDurationTEST)
+  println("This is :", numHashtagsTEST)
+  println("This is :", sampleIntervalTEST)
+  println("This is :", runDurationTEST)
 
   println(s"Number hashtags: ${numHashtags}")
   println(s"Length of sample intervals (in seconds): ${sampleInterval}")
@@ -54,14 +54,14 @@ object Main extends App {
 
   hashtagCount.foreachRDD(rdd => {
     val topList = rdd.sortBy(-_._2._1).take(numHashtags)
-    val timeElapsed = 1.00*(System.currentTimeMillis() - startTimeMillis)/60000
+    val timeElapsed = ((1.00*(System.currentTimeMillis() - startTimeMillis)/60000 * 100).round / 100.toDouble)
     println(s"\n\nProgram time elapsed: ${timeElapsed} minutes")
-    println(s"Popular topics in last ${sampleInterval} seconds (%s total):".format(rdd.count()))
+    println(s"Popular hashtags in last ${sampleInterval} seconds (%s total):".format(rdd.count()))
     var rank:Int = 1
     topList.foreach{case (count, tag) => 
           {val authors = tag._2.split("@").distinct.mkString("  @")
           val mentions = tag._3.split("@").distinct.mkString("  @")
-          println("\nRank: %s \nCount: %s  \nHashtag: %s  \nAuthors:%s  \nMentions:%s"
+          println("\nHashtag Rank: %s \nNumber of Tweets: %s \nHashtag: %s \nAuthors:%s  \nMentions:%s"
           .format(rank, tag._1, count, authors, mentions))
           rank += 1
           }}})
