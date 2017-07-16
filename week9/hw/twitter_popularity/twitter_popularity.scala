@@ -70,11 +70,11 @@ object Main extends App {
 
   test.print()
 
-  test2.foreachRDD(rdd => {
+  test.foreachRDD(rdd => {
     val topList = rdd.sortBy(_._1).take(10)
+      //   println("\nPopular topics in last 60 seconds (%s total):".format(rdd.count()))
+    topList.foreach{case (count, tag) => println("%s (%s tweets)".format(tag, count))
     }) 
-
-  topList.print()
 
   // // // Print popular hashtags
   // topCounts60.foreachRDD(rdd => {
