@@ -58,7 +58,7 @@ object Main extends App {
   data.print()
 
   val hashtagCount = data.reduceByKey((hashtag,value) => 
-        (hashtag._1 + value._1,hashtag.concat(value._2),hashtag.concat(value._3)))
+        (hashtag._1 + value._1,hashtag._2 + value._2,hashtag._3 + value._3))
 
   hashtagCount.print()
 
