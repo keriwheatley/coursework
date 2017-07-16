@@ -5,11 +5,12 @@ import org.apache.spark.SparkConf
 import twitter4j.TwitterFactory
 import twitter4j.Twitter
 import twitter4j.conf.ConfigurationBuilder
-import scala.math.Ordering
 
 object Main extends App {
 
   val startTimeMillis = System.currentTimeMillis()
+
+  println("Program started at 0s.")
 
   if (args.length < 4) {
     System.err.println("Usage: TwitterPopularTags <consumer key> <consumer secret> " +
@@ -43,29 +44,24 @@ object Main extends App {
   val ssc = new StreamingContext(sparkConf, Seconds(sampleInterval)) //Creates RDDs for size of sample interval
   val stream = TwitterUtils.createStream(ssc, None)
 
-  // val totHashtagCount = scala.collection.mutable.Map[String, Int]().withDefaultValue(0)
-
   val data = stream.flatMap(status => 
     status.getHashtagEntities.map(hashtag => 
       ("#"+hashtag.getText, 
         (1,
           " @"+status.getUser.getName,
-          " @"+status.getUserMentionEntities().map(_.getText()).mkString(" @")
-        )
-      )
-    )
-  )
+          " @"+status.getUserMentionEntities().map(_.getText()).mkString(" @")))))
 
   val hashtagCount = data.reduceByKey((hashtag,value) => 
         (hashtag._1 + value._1,hashtag._2 + value._2,hashtag._3 + value._3))
 
   hashtagCount.foreachRDD(rdd => {
     val topList = rdd.sortBy(-_._2._1).take(numHashtags)
+    val timeElasped = System.currentTimeMillis() - startTimeMillis
+    println(s"\nProgram time elasped: ${timeElasped}")
     println(s"\nPopular topics in last ${sampleInterval} seconds (%s total):".format(rdd.count()))
     topList.foreach{case (count, tag) => 
-          println("\n\nCount: %s  \nHashtag: %s  \nAuthors: %s  \nMentions: %s"
-          .format(tag._1, count, tag._2, tag._3))}
-    }) 
+          println("\nCount: %s  \nHashtag: %s  \nAuthors:%s  \nMentions:%s"
+          .format(tag._1, count, tag._2, tag._3))}}) 
 
 
   // val hashtagSort = hashtagCount.map(lines => lines).sortBy(x => x._1))
