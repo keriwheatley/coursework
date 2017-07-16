@@ -23,11 +23,11 @@ object Main extends App {
   var sampleInterval:Int = 120
   var runDuration:Int = 1800
 
-  if (args.length > 5) {numHashtags = args(5).toInt}
-  if (args.length == 6) {sampleInterval = args(6).toInt}
-  if (args.length == 7) {runDuration = args(7).toInt}
+  if (args.length > 4) {numHashtags = args(5).toInt}
+  if (args.length > 5) {sampleInterval = args(6).toInt}
+  if (args.length > 6) {runDuration = args(7).toInt}
 
-  println(s"Number hashtags: ${numHashtags}")
+  println(s"Number hashtags to display: ${numHashtags}")
   println(s"Length of sample intervals (in seconds): ${sampleInterval}")
   println(s"Duration of program run (in seconds): ${runDuration}")
 
