@@ -1,3 +1,8 @@
+// TO RUN PROGRAM
+// sbt clean assembly && $SPARK_HOME/bin/spark-submit \
+//   --master spark://spark1:7077 $(find target -iname "*assembly*.jar") \
+//   $consumerKey $consumerSecret $accessToken $accessTokenSecret
+
 import org.apache.spark.streaming.{Seconds, StreamingContext}
 import org.apache.spark.SparkContext._
 import org.apache.spark.streaming.twitter._
@@ -18,21 +23,13 @@ object Main extends App {
   val sampleInterval:Int = 20
   val runDuration:Int = 60
 
-  val numHashtagsTEST:String = if (args(4).isEmpty) "10" else args(4)
-  val sampleIntervalTEST:String = if (args(5).isEmpty) "30" else args(5)
-  val runDurationTEST:String = if (args(6).isEmpty) "1800" else args(6)
+  // val numHashtagsTEST:String = if (args(4).isEmpty) "10" else args(4)
+  // val sampleIntervalTEST:String = if (args(5).isEmpty) "30" else args(5)
+  // val runDurationTEST:String = if (args(6).isEmpty) "1800" else args(6)
 
-  println("This is :", numHashtagsTEST)
-  println("This is :", sampleIntervalTEST)
-  println("This is :", runDurationTEST)
-
-//   (This is :,--class)
-// (This is :,twitter_popularity/usr/local/spark/bin/spark-submit)
-// (This is :,--master)
-
-// sbt clean assembly && $SPARK_HOME/bin/spark-submit \
-//   --master spark://spark1:7077 $(find target -iname "*assembly*.jar") \
-//   $consumerKey $consumerSecret $accessToken $accessTokenSecret
+  // println("This is :", numHashtagsTEST)
+  // println("This is :", sampleIntervalTEST)
+  // println("This is :", runDurationTEST)
 
   println(s"Number hashtags: ${numHashtags}")
   println(s"Length of sample intervals (in seconds): ${sampleInterval}")
