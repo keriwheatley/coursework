@@ -57,14 +57,10 @@ object Main extends App {
 
   data.print()
 
-  val rdd = sc.parallelize(Array(("foo", (1, 10)), ("foo", (2, 2)), ("bar", (5, 5))))
-  val res = rdd.reduceByKey((p1, p2) => (p1._1 + p2._1, p1._2 + p2._2))
-  res.collect()
-  res.print()
-  // val hashtagCount = data.reduceByKey((hashtag,count) => 
-  //       (hashtag._1 + count._1,hashtag._1 + count._2))
+  val hashtagCount = data.reduceByKey((hashtag,count) => 
+        (hashtag._1 + count._1))
 
-  // hashtagCount.print()
+  hashtagCount.print()
 
   // val hashtagAuthor = data.map(line => (line._1,line._2._2))
   //               .reduceByKey((hashtag,author) => (hashtag + author))
