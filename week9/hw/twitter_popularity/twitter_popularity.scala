@@ -16,13 +16,14 @@ object Main extends App {
   // Get time at start
   val startTimeMillis = System.currentTimeMillis()
 
-  // Check for the 
+  // Check for Twitter credentials
   if (args.length < 4) {
     System.err.println("Usage: TwitterPopularTags <consumer key> <consumer secret> " +
       "<access token> <access token secret> <[optional] number hashtags> <[optional] sample interval in seconds> <[optional] run duration in seconds>")
     System.exit(1)
   }
 
+  // Check for optional inputs: number of hashtags, sample interval, run duration
   val Array(consumerKey, consumerSecret, accessToken, accessTokenSecret) = args.take(4)
   var numHashtags:Int = 10
   var sampleInterval:Int = 120
@@ -97,7 +98,7 @@ object Main extends App {
           }}})
 
   ssc.start()
-  ssc.awaitTerminationOrTimeout((runDuration * 1015)
+  ssc.awaitTerminationOrTimeout(runDuration * 1015)
   println(s"\nMax duration of ${runDuration} seconds reached. Ending program.")
   ssc.stop()
 }
