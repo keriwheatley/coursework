@@ -58,7 +58,7 @@ object Main extends App {
 
   val hashtagCount = data.reduceByKey((hashtag,value) => 
         (hashtag._1 + value._1,hashtag._2 + value._2,hashtag._3 + value._3)).sortByKey(false)
-        .sortBy(_._1)
+        .sortBy((hashtag,value) => value._1)
 
   hashtagCount.print()
 
