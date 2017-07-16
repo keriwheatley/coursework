@@ -65,14 +65,18 @@ object Main extends App {
 
   // hashtagSort.print()
 
-  val test = data.map(list => (list._1,list._2._1)).reduceByKey((hashtag,value) => 
-        (hashtag + value))
+  // val test = data.map(list => (list._1,list._2._1)).reduceByKey((hashtag,value) => 
+        // (hashtag + value))
 
-  test.print()
+  // test.foreachRDD(rdd => {
+  //   val topList1 = rdd.sortBy(_._1).take(10)
+  //     //   println("\nPopular topics in last 60 seconds (%s total):".format(rdd.count()))
+  //   topList1.foreach{case (count, tag) => println("%s (%s tweets)".format(tag, count))}
+  //   }) 
 
-  test.foreachRDD(rdd => {
-    val topList = rdd.sortBy(_._1).take(10)
-      //   println("\nPopular topics in last 60 seconds (%s total):".format(rdd.count()))
+  hashtagCount.foreachRDD(rdd => {
+    val topList = rdd.sortBy(_._2._1).take(10)
+        println("\nPopular topics in last 60seconds (%s total):".format(rdd.count()))
     topList.foreach{case (count, tag) => println("%s (%s tweets)".format(tag, count))}
     }) 
 
