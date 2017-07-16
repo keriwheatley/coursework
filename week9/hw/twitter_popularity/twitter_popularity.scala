@@ -52,7 +52,9 @@ object Main extends App {
           "@"+status.getUserMentionEntities().map(_.getText()).mkString("@")))))
 
   val hashtagCount = data.reduceByKeyAndWindow((hashtag,value) => 
-        (hashtag._1 + value._1,hashtag._2 + value._2,hashtag._3 + value._3,Seconds(sampleInterval),Seconds(sampleInterval)))
+        (hashtag._1 + value._1,hashtag._2 + value._2,hashtag._3 + value._3),
+          Seconds(sampleInterval),
+          Seconds(sampleInterval))
 
   hashtagCount.foreachRDD(rdd => {
     val topList = rdd.sortBy(-_._2._1).take(numHashtags)
