@@ -57,11 +57,14 @@ object Main extends App {
     val timeElapsed = 1.00*(System.currentTimeMillis() - startTimeMillis)/60000
     println(s"\n\nProgram time elapsed: ${timeElapsed} minutes")
     println(s"Popular topics in last ${sampleInterval} seconds (%s total):".format(rdd.count()))
+    val rank = 1
     topList.foreach{case (count, tag) => 
           {val authors = tag._2.split("@").distinct.mkString("  @")
           val mentions = tag._3.split("@").distinct.mkString("  @")
-          println("\nCount: %s  \nHashtag: %s  \nAuthors:%s  \nMentions:%s"
-          .format(tag._1, count, authors, mentions))}}})
+          println("\nRank: %s \nCount: %s  \nHashtag: %s  \nAuthors:%s  \nMentions:%s"
+          .format(rank, tag._1, count, authors, mentions))
+          rank += 1
+          }}})
 
 
   // val hashtagSort = hashtagCount.map(lines => lines).sortBy(x => x._1))
