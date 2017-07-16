@@ -6,7 +6,6 @@ lazy val common = Seq(
     "org.apache.spark" %% "spark-streaming" % "1.6.3" % "provided",
     "org.apache.spark" %% "spark-streaming-twitter" % "1.6.3",
     "com.typesafe" % "config" % "1.3.0",
-    "org.apache.spark" %% "spark-sql" % "1.6.3"
   ),
   mergeStrategy in assembly <<= (mergeStrategy in assembly) { (old) =>
      {
