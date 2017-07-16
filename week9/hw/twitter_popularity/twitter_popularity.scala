@@ -13,8 +13,10 @@ import org.apache.spark.SparkConf
 
 object Main extends App {
 
+  // Get time at start
   val startTimeMillis = System.currentTimeMillis()
 
+  // Check for the 
   if (args.length < 4) {
     System.err.println("Usage: TwitterPopularTags <consumer key> <consumer secret> " +
       "<access token> <access token secret> <[optional] number hashtags> <[optional] sample interval in seconds> <[optional] run duration in seconds>")
@@ -95,7 +97,7 @@ object Main extends App {
           }}})
 
   ssc.start()
-  ssc.awaitTerminationOrTimeout((runDuration*1.15) * 1000)
+  ssc.awaitTerminationOrTimeout((runDuration * 1015)
   println(s"\nMax duration of ${runDuration} seconds reached. Ending program.")
   ssc.stop()
 }
