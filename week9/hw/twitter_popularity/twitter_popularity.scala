@@ -70,9 +70,11 @@ object Main extends App {
 
   test.print()
 
-  val test2 = test.sortBy(_._1)
+  test2.foreachRDD(rdd => {
+    val topList = rdd.sortBy(_._1).take(10)
+    }) 
 
-  test2.print()
+  topList.print()
 
   // // // Print popular hashtags
   // topCounts60.foreachRDD(rdd => {
