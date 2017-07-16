@@ -61,7 +61,7 @@ object Main extends App {
 
   hashtagCount.print()
 
-  val hashtagSort = hashtagCount.sortBy(_._2._1)
+  val hashtagSort = hashtagCount.flatMap(row => row)
 
   hashtagSort.print()
 
