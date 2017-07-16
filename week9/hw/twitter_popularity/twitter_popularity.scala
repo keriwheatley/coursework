@@ -67,12 +67,12 @@ object Main extends App {
           rank += 1
           }}})
 
-  val sc = new SparkContext(sparkConf)
-  val sqlContext = new SQLContext(sc)
-  import sqlContext.implicits._
-  val testEntry = ("hashtag","count","authors","mentions")
-  val ds = sqlContext.createDataset(testEntry)
-  ds.print()
+  // val sc = new SparkContext(sparkConf)
+  // val sqlContext = new SQLContext(sc)
+  // import sqlContext.implicits._
+  val testEntry = ("hashtag","count","authors","mentions").toDS()
+  // val ds = sqlContext.createDataset(testEntry)
+  testEntry.show()
 
   // val hashtagSort = hashtagCount.map(lines => lines).sortBy(x => x._1))
 
