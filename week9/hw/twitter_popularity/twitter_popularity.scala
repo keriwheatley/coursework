@@ -60,19 +60,19 @@ object Main extends App {
   sampleCount.foreachRDD(rdd => {
     val topList = rdd.sortBy(-_._2._1).take(numHashtags)
     val timeElapsed = ((1.00*(System.currentTimeMillis() - startTimeMillis)/60000 * 100).round / 100.toDouble)
-    println(s"\n\n--------------------------------------")
-    println(s"--------------------------------------")
-    println(s"Program time elapsed: ${timeElapsed} minutes")
-    println(s"Popular hashtags in last ${sampleInterval} seconds (%s total)".format(rdd.count()))
-    var rank:Int = 1
-    topList.foreach{case (count, tag) => 
-          {val authors = tag._2.split("@").distinct.mkString("  @")
-          val mentions = tag._3.split("@").distinct.mkString("  @")
-          if (((System.currentTimeMillis() - startTimeMillis)/1000) < runDuration) {
+    if (((System.currentTimeMillis() - startTimeMillis)/1000) < runDuration) {
+      println(s"\n\n--------------------------------------")
+      println(s"--------------------------------------")
+      println(s"Program time elapsed: ${timeElapsed} minutes")
+      println(s"Popular hashtags in last ${sampleInterval} seconds (%s total)".format(rdd.count()))
+      var rank:Int = 1
+      topList.foreach{case (count, tag) => 
+            {val authors = tag._2.split("@").distinct.mkString("  @")
+            val mentions = tag._3.split("@").distinct.mkString("  @")
             println("\nHashtag Ranking: %s\nNumber of Tweets: %s\nHashtag: %s\nAuthors:%s\nMentions:%s"
-          .format(rank, tag._1, count, authors, mentions))}
-          rank += 1
-          }}})
+            .format(rank, tag._1, count, authors, mentions))
+            rank += 1
+            }}}})
 
   val totalCount = data.reduceByKeyAndWindow(aggregateFunc,Seconds(runDuration),Seconds(runDuration))
 
