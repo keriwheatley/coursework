@@ -67,6 +67,11 @@ object Main extends App {
 
   hashtagAuthor.print()
 
+  val hashtagCount = data.map(line => (line._1,line._2._1,line._2._2))
+                .reduceByKey((hashtag,count,author) => (hashtag + count + author))
+
+  hashtagCount.print()
+
   // val hashtagCount = hashtags.map(hashtag => (hashtag,1)).reduceByKey(_+_)
   // hashtagCount.print()
 
