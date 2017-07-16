@@ -1,11 +1,3 @@
-// TO RUN PROGRAM
-// $SPARK_HOME/bin/spark-submit --master spark://spark1:7077 $(find target -iname "*assembly*.jar") \
-//   <consumerKey> <consumerSecret> <accessToken> <accessTokenSecret> \
-//   <[optional]numberHashtags> <[optional]sampleInterval> <[optional]runDuration>
-
-// $SPARK_HOME/bin/spark-submit --master spark://spark1:7077 $(find target -iname "*assembly*.jar") \
-//   $consumerKey $consumerSecret $accessToken $accessTokenSecret 5 120 170
-
 import org.apache.spark.streaming.{Seconds, StreamingContext}
 import org.apache.spark.SparkContext._
 import org.apache.spark.streaming.twitter._
