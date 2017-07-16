@@ -61,10 +61,10 @@ object Main extends App {
 
   hashtagCount.print()
 
-  val hashtagSort = hashtagCount.sortBy((hashtag,value) => value._1)
+  val hashtagSort = hashtagCount.top(2, key=lambda x:x[0])
 
   hashtagSort.print()
-  
+
   // val hashtagAuthor = data.map(line => (line._1,line._2._2))
   //               .reduceByKey((hashtag,author) => (hashtag + author))
 
@@ -107,18 +107,6 @@ object Main extends App {
   // }
   // data2.print()
 
-  // data.foreachRDD {rdd => for {
-  //   hashtag <- rdd._1
-  //   user = rdd._2
-  //   mentionedUser <- rdd._3
-  // } yield (hashtag, user, mentionedUser)}
-
-  // val data = stream.map { case (hashtag, user) => 
-  //         (hashtag.getHashtagEntities.map(_.getText).toList,
-  //           user.getUser().getScreenName()) }
-
-  // hashtags.print()
-
 
 
   // val hashtagUpdate = hashtags.map {line => totHashtagCount(line) += 1}
@@ -127,9 +115,6 @@ object Main extends App {
 
   // stream.foreachRDD(rdd => rdd.map {line => println("\nTest Stream")})
 
-  // totHashtagCount.keys.foreach{key => 
-    // print("Key = " + key)
-    // println(" Value = " + totHashtagCount(key))}
 
   // val users = stream.map {user => user.getUser().getScreenName()}
   // users.print()
