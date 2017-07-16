@@ -95,7 +95,7 @@ object Main extends App {
           }}})
 
   ssc.start()
-  ssc.awaitTerminationOrTimeout((runDuration + 60) * 1000)
+  ssc.awaitTerminationOrTimeout((runDuration*1.15) * 1000)
   println(s"\nMax duration of ${runDuration} seconds reached. Ending program.")
   ssc.stop()
 }
