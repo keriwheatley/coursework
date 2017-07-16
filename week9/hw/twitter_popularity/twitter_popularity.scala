@@ -10,7 +10,7 @@ object Main extends App {
 
   val startTimeMillis = System.currentTimeMillis()
 
-  println("Program started at 0s.")
+  println("Program time elasped: 0 seconds")
 
   if (args.length < 4) {
     System.err.println("Usage: TwitterPopularTags <consumer key> <consumer secret> " +
@@ -56,9 +56,9 @@ object Main extends App {
 
   hashtagCount.foreachRDD(rdd => {
     val topList = rdd.sortBy(-_._2._1).take(numHashtags)
-    val timeElasped = System.currentTimeMillis() - startTimeMillis
-    println(s"\nProgram time elasped: ${timeElasped}")
-    println(s"\nPopular topics in last ${sampleInterval} seconds (%s total):".format(rdd.count()))
+    val timeElasped = (System.currentTimeMillis() - startTimeMillis)/1000
+    println(s"\n\nProgram time elasped: ${timeElasped} seconds")
+    println(s"Popular topics in last ${sampleInterval} seconds (%s total):".format(rdd.count()))
     topList.foreach{case (count, tag) => 
           println("\nCount: %s  \nHashtag: %s  \nAuthors:%s  \nMentions:%s"
           .format(tag._1, count, tag._2, tag._3))}}) 
