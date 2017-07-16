@@ -57,7 +57,7 @@ object Main extends App {
     val timeElapsed = 1.00*(System.currentTimeMillis() - startTimeMillis)/60000
     println(s"\n\nProgram time elapsed: ${timeElapsed} minutes")
     println(s"Popular topics in last ${sampleInterval} seconds (%s total):".format(rdd.count()))
-    val rank:Int = 1
+    var rank:Int = 1
     topList.foreach{case (count, tag) => 
           {val authors = tag._2.split("@").distinct.mkString("  @")
           val mentions = tag._3.split("@").distinct.mkString("  @")
