@@ -61,7 +61,7 @@ object Main extends App {
 
   hashtagCount.print()
 
-  hashtagCount.top(2, key=lambda items: items[1][0])
+  hashtagCount.top(2, key=lambda items: items[0])
 
 
   // val hashtagAuthor = data.map(line => (line._1,line._2._2))
