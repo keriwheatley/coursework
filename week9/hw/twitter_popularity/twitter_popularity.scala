@@ -44,31 +44,44 @@ object Main extends App {
   val stream = TwitterUtils.createStream(ssc, None)
 
   // val totHashtagCount = scala.collection.mutable.Map[String, Int]().withDefaultValue(0)
+
+  val dataFinal = stream.flatMap(status => 
+    status.getHashtagEntities.map(hashtag => 
+      ("#"+hashtag.getText, 
+        (1,
+          "@"+status.getUser.getName,
+          "@"+status.getUserMentionEntities().map(_.getText()).mkString("@")
+        )
+      )
+    )
+  )
+
+  dataFinal.print()
   
-  val hashtags = stream.map {hashtag => hashtag.getHashtagEntities.map(_.getText).toList}
+  val hashtags = stream.map {hashtag => hashtag.getHashtagEntities.map(_.getText)}
                   .flatMap(list => list)
   hashtags.print()
 
-  val hashtagCount = hashtags.map(hashtag => (hashtag,1)).reduceByKey(_+_)
-  hashtagCount.print()
+  // val hashtagCount = hashtags.map(hashtag => (hashtag,1)).reduceByKey(_+_)
+  // hashtagCount.print()
 
-  val data = stream.map {line => 
-        (line.getHashtagEntities.map(_.getText).toList.map(_.toString),
-        line.getUser().getScreenName()
-        // ,
-        // line.getUserMentionEntities.map(_.getScreenName).toList
-        )
-  }
-  data.print()
+  // val data = stream.map {line => 
+  //       (line.getHashtagEntities.map(_.getText).toList.map(_.toString),
+  //       line.getUser().getScreenName()
+  //       // ,
+  //       // line.getUserMentionEntities.map(_.getScreenName).toList
+  //       )
+  // }
+  // data.print()
 
   // val data2 = data.filter
 
-  val sc = new SparkContext(conf)
-  val sqlContext= new org.apache.spark.sql.SQLContext(sc)
-  import sqlContext.implicits._
-  data.foreachRDD { rdd =>
-      rdd.toDF().registerTempTable("df")
-  }
+  // val sc = new SparkContext(conf)
+  // val sqlContext= new org.apache.spark.sql.SQLContext(sc)
+  // import sqlContext.implicits._
+  // data.foreachRDD { rdd =>
+  //     rdd.toDF().registerTempTable("df")
+  // }
   // data2.print()
 
   // data.foreachRDD {rdd => for {
@@ -97,7 +110,8 @@ object Main extends App {
 
   // val users = stream.map {user => user.getUser().getScreenName()}
   // users.print()
-  // val mentions = stream.map {mention => mention.getUserMentionEntities.map(_.getScreenName).toList}
+  // val mentions = stream.map {mention => mention.getUserMentionEntities.map(_.getScreenName).
+  //   toList}
   //                 .flatMap(list => list)
   // mentions.print()
 
