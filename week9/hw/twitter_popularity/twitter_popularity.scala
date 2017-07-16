@@ -23,9 +23,12 @@ object Main extends App {
   var sampleInterval:Int = 120
   var runDuration:Int = 1800
 
-  if (args.length > 4) {
-    val hashtagArg:Int = args(5)
-    numHashtags = args(5)}
+  args.foreach(arg => println(arg))
+
+  println(arg(0))
+  // if (args.length > 4) {
+    // val hashtagArg:Int = args(5)
+    // numHashtags = args(5)}
   // if (args.length > 5) {sampleInterval = args(6)}
   // if (args.length > 6) {runDuration = args(7)}
 
