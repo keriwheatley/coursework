@@ -5,6 +5,7 @@ import org.apache.spark.SparkConf
 import twitter4j.TwitterFactory
 import twitter4j.Twitter
 import twitter4j.conf.ConfigurationBuilder
+import scala.math.Ordering
 
 object Main extends App {
 
@@ -55,12 +56,12 @@ object Main extends App {
     )
   )
 
-  data.print()
-
   val hashtagCount = data.reduceByKey((hashtag,value) => 
         (hashtag._1 + value._1,hashtag._2 + value._2,hashtag._3 + value._3))
 
   hashtagCount.print()
+
+  val hashtagSort = hashtagCount.top(2)(Ordering.by[Array[String], Int](_.apply(1).toInt))
 
   // val hashtagAuthor = data.map(line => (line._1,line._2._2))
   //               .reduceByKey((hashtag,author) => (hashtag + author))
