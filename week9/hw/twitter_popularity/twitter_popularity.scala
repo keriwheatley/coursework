@@ -67,7 +67,7 @@ object Main extends App {
           rank += 1
           }}})
 
-  val sc = new SparkContext(conf)
+  val sc = new SparkContext(sparkConf)
   val sqlContext = new SQLContext(sc)
   import sqlContext.implicits._
   val testEntry = ("hashtag","count","authors","mentions")
