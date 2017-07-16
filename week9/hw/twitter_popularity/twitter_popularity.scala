@@ -26,13 +26,9 @@ object Main extends App {
   var sampleInterval:Int = 120
   var runDuration:Int = 1800
 
-  println(args.length)
-
-  println(args)
-
-  // if (args.length > 4) {numHashtags = args(4).toInt}
-  // if (args.length > 5) {sampleInterval = args(5).toInt}
-  // if (args.length > 6) {runDuration = args(6).toInt}
+  if (args.length > 4) {numHashtags = args(4).toInt}
+  if (args.length > 5) {sampleInterval = args(5).toInt}
+  if (args.length > 6) {runDuration = args(6).toInt}
 
   System.setProperty("twitter4j.oauth.consumerKey", consumerKey)
   System.setProperty("twitter4j.oauth.consumerSecret", consumerSecret)
