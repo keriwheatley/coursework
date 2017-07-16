@@ -103,10 +103,10 @@ object Main extends App {
 
 
 
-  ssc.start()
-  ssc.awaitTerminationOrTimeout(runDuration * 1000)
-  println(s"\nMax duration of ${runDuration} seconds reached. Ending program.")
-  ssc.stop()
+  // ssc.start()
+  // ssc.awaitTerminationOrTimeout(runDuration * 1000)
+  // println(s"\nMax duration of ${runDuration} seconds reached. Ending program.")
+  // ssc.stop()
 }
 
 
