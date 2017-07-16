@@ -59,7 +59,12 @@ object Main extends App {
   val hashtagCount = data.reduceByKey((hashtag,value) => 
         (hashtag._1 + value._1,hashtag._2 + value._2,hashtag._3 + value._3))
 
-  hashtagCount.print()
+  hashtagCount.foreachRDD(rdd => {
+    val topList = rdd.take(numHashtags,_._2._1)
+    println(s"\nPopular topics in last ${sampleInterval} seconds (%s total):".format(rdd.count()))
+    topList.foreach{case (count, tag) => println("%s (%s tweets)".format(tag, count))}
+    }) 
+
 
   // val hashtagSort = hashtagCount.map(lines => lines).sortBy(x => x._1))
 
@@ -73,12 +78,6 @@ object Main extends App {
   //     //   println("\nPopular topics in last 60 seconds (%s total):".format(rdd.count()))
   //   topList1.foreach{case (count, tag) => println("%s (%s tweets)".format(tag, count))}
   //   }) 
-
-  hashtagCount.foreachRDD(rdd => {
-    val topList = rdd.sortBy(_._2._1).take(10)
-        println("\nPopular topics in last 60seconds (%s total):".format(rdd.count()))
-    topList.foreach{case (count, tag) => println("%s (%s tweets)".format(tag, count))}
-    }) 
 
   // // // Print popular hashtags
   // topCounts60.foreachRDD(rdd => {
