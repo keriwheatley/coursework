@@ -57,7 +57,7 @@ object Main extends App {
 
   data.print()
 
-  val reduce = data.reduceByKey((key,value) => (key + value._1))
+  val reduce = data.reduceByKey((key,value) => (key + value(0)))
 
   reduce.print()
     
