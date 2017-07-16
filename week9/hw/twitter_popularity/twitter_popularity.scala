@@ -39,7 +39,7 @@ object Main extends App {
   System.setProperty("twitter4j.oauth.accessTokenSecret", accessTokenSecret)
 
   val sparkConf = new SparkConf().setAppName("TwitterPopularTags")
-  val ssc = new StreamingContext(sparkConf, Seconds(sampleInterval)) //Creates RDDs for size of sample interval
+  val ssc = new StreamingContext(sparkConf, Seconds(sampleInterval))
   val stream = TwitterUtils.createStream(ssc, None)
 
   val data = stream.flatMap(status => 
@@ -61,11 +61,13 @@ object Main extends App {
     topList.foreach{case (count, tag) => 
           {val authors = tag._2.split("@").distinct.mkString("  @")
           val mentions = tag._3.split("@").distinct.mkString("  @")
-          println("\nHashtag Rank: %s \nNumber of Tweets: %s \nHashtag: %s \nAuthors:%s  \nMentions:%s"
+          println("\nHashtag Rank: %s\nNumber of Tweets: %s\nHashtag: %s\nAuthors:%s\nMentions:%s"
           .format(rank, tag._1, count, authors, mentions))
           rank += 1
           }}})
 
+  val testEntry = Arrays.asList("hashtag","count","authors","mentions")
+  val ds = spark.createDataset(testEntry)
 
   // val hashtagSort = hashtagCount.map(lines => lines).sortBy(x => x._1))
 
@@ -94,12 +96,9 @@ object Main extends App {
 
 
 
-
-
-
   ssc.start()
   ssc.awaitTerminationOrTimeout(runDuration * 1000)
-  println(s"\nMax duration reached. Ending program.")
+  println(s"\nMax duration of ${runDuration} seconds reached. Ending program.")
   ssc.stop()
 }
 
