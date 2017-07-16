@@ -23,7 +23,7 @@ object Main extends App {
   val sampleInterval:Int = 20
   val runDuration:Int = 60
 
-  // val numHashtagsTEST:String = if (args(4).isEmpty) "10" else args(4)
+  val numHashtagsTEST:String = if (args(4) == null) "10" else args(4)
   // val sampleIntervalTEST:String = if (args(5).isEmpty) "30" else args(5)
   // val runDurationTEST:String = if (args(6).isEmpty) "1800" else args(6)
 
@@ -79,7 +79,9 @@ object Main extends App {
     val timeElapsed = ((1.00*(System.currentTimeMillis() - startTimeMillis)/60000 * 100).round / 100.toDouble)
     println(s"\n\n--------------------------------------")
     println(s"--------------------------------------")
-    println(s"\n\nProgram time elapsed: ${timeElapsed} minutes")
+    println(s"--------------------------------------")
+    println(s"--------------------------------------")
+    println(s"Program time elapsed: ${timeElapsed} minutes")
     println(s"Top Most Popular hashtags for entire program run of ${runDuration} seconds (%s total):".format(rdd.count()))
     var rank:Int = 1
     topList.foreach{case (count, tag) => 
@@ -91,7 +93,7 @@ object Main extends App {
           }}})
 
   ssc.start()
-  ssc.awaitTerminationOrTimeout((runDuration + 60) * 1000)
+  ssc.awaitTerminationOrTimeout((runDuration + 15) * 1000)
   println(s"\nMax duration of ${runDuration} seconds reached. Ending program.")
   ssc.stop()
 }
