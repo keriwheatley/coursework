@@ -20,7 +20,7 @@ object Main extends App {
 
   val Array(consumerKey, consumerSecret, accessToken, accessTokenSecret) = args.take(4)
   val numHashtags:Int = 8
-  val sampleInterval:Int = 20
+  val sampleInterval:Int = 1
   val runDuration:Int = 180
 
   val numHashtagsTEST:String = if (args(4) == "") "10" else args(4)
@@ -51,10 +51,10 @@ object Main extends App {
           "@"+status.getUser.getName,
           "@"+status.getUserMentionEntities().map(_.getText()).mkString("@")))))
 
-  val hashtagCount = data.reduceByKeyAndWindow((hashtag:String,value:Int) => 
-        (hashtag._1 + value._1,hashtag._2 + value._2,hashtag._3 + value._3),
-          Seconds(sampleInterval),
-          Seconds(sampleInterval))
+  val dataSample = data.window(seconds(sampleInterval),seconds(sampleInterval))
+
+  val hashtagCount = dataSample.reduceByKey((hashtag,value) => 
+        (hashtag._1 + value._1,hashtag._2 + value._2,hashtag._3 + value._3))
 
   hashtagCount.foreachRDD(rdd => {
     val topList = rdd.sortBy(-_._2._1).take(numHashtags)
