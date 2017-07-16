@@ -24,20 +24,20 @@ object Main extends App {
   }
 
   // Check for optional inputs: number of hashtags, sample interval, run duration
+  // If not exist, set default values
   val Array(consumerKey, consumerSecret, accessToken, accessTokenSecret) = args.take(4)
   var numHashtags:Int = 10
   var sampleInterval:Int = 120
   var runDuration:Int = 1800
-
   if (args.length > 4) {numHashtags = args(4).toInt}
   if (args.length > 5) {sampleInterval = args(5).toInt}
   if (args.length > 6) {runDuration = args(6).toInt}
 
+  // Set up Twitter streaming
   System.setProperty("twitter4j.oauth.consumerKey", consumerKey)
   System.setProperty("twitter4j.oauth.consumerSecret", consumerSecret)
   System.setProperty("twitter4j.oauth.accessToken", accessToken)
   System.setProperty("twitter4j.oauth.accessTokenSecret", accessTokenSecret)
-
   val sparkConf = new SparkConf().setAppName("TwitterPopularTags")
   val ssc = new StreamingContext(sparkConf, Seconds(1))
   val stream = TwitterUtils.createStream(ssc, None)
@@ -48,6 +48,7 @@ object Main extends App {
   println(s"Length of sample intervals (in seconds): ${sampleInterval}")
   println(s"Duration of program run (in seconds): ${runDuration}")
 
+  // Map datastream to this format (#hashtag,(1,@author,@mention1@mention2))
   val data = stream.flatMap(status => 
     status.getHashtagEntities.map(hashtag => 
       ("#"+hashtag.getText, 
@@ -56,10 +57,12 @@ object Main extends App {
           "@"+status.getUserMentionEntities().map(_.getText()).mkString("@")))))
 
   val aggregateFunc: ((Int, String, String), (Int, String, String)) => (Int, String, String) = {
-      case ((v1, w1, y1), (v2, w2, y2)) => {(v1 + v2, w1 + w2, y1 + y2)}}
+      case ((v1, w1, y1), (v2, w2, y2)) => {(v1 + v2, w1 + w2, y1 + y2)}} // Each variable refers to (1, @author, @mention1@mention2)
 
+  // Reduce data by key #hashtag for sample interval
   val sampleCount = data.reduceByKeyAndWindow(aggregateFunc,Seconds(sampleInterval),Seconds(sampleInterval))
 
+  // For each sample interval RDD, print relevant data
   sampleCount.foreachRDD(rdd => {
     val topList = rdd.sortBy(-_._2._1).take(numHashtags)
     val timeElapsed = ((1.00*(System.currentTimeMillis() - startTimeMillis)/60000 * 100).round / 100.toDouble)
@@ -77,8 +80,10 @@ object Main extends App {
             rank += 1
             }}}})
 
+  // Reduce data by key #hashtag for entire run duration
   val totalCount = data.reduceByKeyAndWindow(aggregateFunc,Seconds(runDuration),Seconds(runDuration))
 
+  // For each run duration RDD, print relevant data
   totalCount.foreachRDD(rdd => {
     val topList = rdd.sortBy(-_._2._1).take(numHashtags)
     val timeElapsed = ((1.00*(System.currentTimeMillis() - startTimeMillis)/60000 * 100).round / 100.toDouble)
@@ -97,6 +102,7 @@ object Main extends App {
           rank += 1
           }}})
 
+  // Start stream, wait for run duration, stop stream
   ssc.start()
   ssc.awaitTerminationOrTimeout(runDuration * 1150)
   println(s"\nMax duration of ${runDuration} seconds reached. Ending program.")
