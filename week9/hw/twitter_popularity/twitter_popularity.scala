@@ -57,7 +57,7 @@ object Main extends App {
 
   data.print()
 
-  val reduce = data.map(line => line._1)
+  val reduce = data.map(line => line._2)
 
     // ).reduceByKey((hashtag,values) => (hashtag, values))
 
