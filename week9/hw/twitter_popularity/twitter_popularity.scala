@@ -69,7 +69,7 @@ object Main extends App {
   val sc = new SparkContext(conf)
   val sqlContext = new SQLContext(sc)
   import sqlContext.implicits._
-  val testEntry = Arrays.asList("hashtag","count","authors","mentions")
+  val testEntry = ("hashtag","count","authors","mentions")
   val ds = sqlContext.createDataset(testEntry)
   ds.print()
 
