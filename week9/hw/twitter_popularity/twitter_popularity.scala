@@ -1,7 +1,18 @@
 // TO RUN PROGRAM
 // sbt clean assembly && $SPARK_HOME/bin/spark-submit \
 //   --master spark://spark1:7077 $(find target -iname "*assembly*.jar") \
-//   $consumerKey $consumerSecret $accessToken $accessTokenSecret
+//   <consumerKey> <consumerSecret> <accessToken> <accessTokenSecret> \
+//   <[optional]numberHashtags> <[optional]sampleInterval> <[optional]runDuration>
+
+// sbt clean assembly && $SPARK_HOME/bin/spark-submit \
+//   --master spark://spark1:7077 $(find target -iname "*assembly*.jar") \
+//   <consumerKey> <consumerSecret> <accessToken> <accessTokenSecret> \
+//   <[optional]numberHashtags> <[optional]sampleInterval> <[optional]runDuration>
+
+// sbt clean assembly && $SPARK_HOME/bin/spark-submit \
+// --master spark://spark1:7077 $(find target -iname "*assembly*.jar") \
+// $consumerKey $consumerSecret $accessToken $accessTokenSecret \
+// 10 120 170
 
 import org.apache.spark.streaming.{Seconds, StreamingContext}
 import org.apache.spark.SparkContext._
