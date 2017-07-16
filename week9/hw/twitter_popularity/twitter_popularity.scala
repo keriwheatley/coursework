@@ -73,8 +73,9 @@ object Main extends App {
   // val testEntry = Seq("hashtag","count","authors","mentions").toDS()
   // val ds = sqlContext.createDataset(testEntry)
   // testEntry.show()
-  val dataset = Seq(1, 2, 3).toDS()
-  dataset.show()
+  val dataset = Seq(1, 2, 3)
+  val dataset2 = dataset.toDS()
+  dataset2.show()
 
   // val hashtagSort = hashtagCount.map(lines => lines).sortBy(x => x._1))
 
