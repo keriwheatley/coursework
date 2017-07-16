@@ -20,7 +20,7 @@ object Main extends App {
 
   val Array(consumerKey, consumerSecret, accessToken, accessTokenSecret) = args.take(4)
   val numHashtags:Int = 8
-  val sampleInterval:Int = 1
+  val sampleInterval:Int = 20
   val runDuration:Int = 180
 
   val numHashtagsTEST:String = if (args(4) == "") "10" else args(4)
@@ -51,20 +51,15 @@ object Main extends App {
           "@"+status.getUser.getName,
           "@"+status.getUserMentionEntities().map(_.getText()).mkString("@")))))
 
-  // val dataSample = data.window(sampleInterval,sampleInterval)
-
   val aggregateFunc: ((Int, String, String), (Int, String, String)) => (Int, String, String) = {
       case ((v1, w1, y1), (v2, w2, y2)) => {
          (v1 + v2, w1 + w2, y1 + y2)
        }
     }
 
-  val hashtagCount = data.reduceByKeyAndWindow(aggregateFunc,Seconds(30),Seconds(30))
+  val sampleCount = data.reduceByKeyAndWindow(aggregateFunc,Seconds(sampleInterval),Seconds(sampleInterval))
 
-  // val hashtagCount = data.reduceByKey((hashtag,value) => 
-        // (hashtag._1 + value._1,hashtag._2 + value._2,hashtag._3 + value._3))
-
-  hashtagCount.foreachRDD(rdd => {
+  sampleCount.foreachRDD(rdd => {
     val topList = rdd.sortBy(-_._2._1).take(numHashtags)
     val timeElapsed = ((1.00*(System.currentTimeMillis() - startTimeMillis)/60000 * 100).round / 100.toDouble)
     println(s"\n\nProgram time elapsed: ${timeElapsed} minutes")
@@ -78,42 +73,21 @@ object Main extends App {
           rank += 1
           }}})
 
-  // val sc = new SparkContext(sparkConf)
-  // val sqlContext= new org.apache.spark.sql.SQLContext(sc)
-  // import sqlContext.implicits._
-  // val testEntry = Seq("hashtag","count","authors","mentions").toDS()
-  // val ds = sqlContext.createDataset(testEntry)
-  // testEntry.show()
-  // val dataset = Seq("1", "2", "3")
-  // val dataset2 = dataset.toDS()
-  // dataset2.show()
+  val totalCount = data.reduceByKeyAndWindow(aggregateFunc,Seconds(runDuration-5),Seconds(runDuration-5))
 
-  // val hashtagSort = hashtagCount.map(lines => lines).sortBy(x => x._1))
-
-  // hashtagSort.print()
-
-  // val test = data.map(list => (list._1,list._2._1)).reduceByKey((hashtag,value) => 
-        // (hashtag + value))
-
-  // test.foreachRDD(rdd => {
-  //   val topList1 = rdd.sortBy(_._1).take(10)
-  //     //   println("\nPopular topics in last 60 seconds (%s total):".format(rdd.count()))
-  //   topList1.foreach{case (count, tag) => println("%s (%s tweets)".format(tag, count))}
-  //   }) 
-
-  // // // Print popular hashtags
-  // topCounts60.foreachRDD(rdd => {
-  //   val topList = rdd.take(10)
-  //   println("\nPopular topics in last 60 seconds (%s total):".format(rdd.count()))
-  //   topList.foreach{case (count, tag) => println("%s (%s tweets)".format(tag, count))}
-  // })
-
-
-  // val topCounts60 = hashtags.map((_, 1)).reduceByKeyAndWindow(_ + _, Seconds(runDuration))
-  //                    .map{case (topic, count) => (count, topic)}
-  //                    .transform(_.sortByKey(false))
-
-
+  totalCount.foreachRDD(rdd => {
+    val topList = rdd.sortBy(-_._2._1).take(numHashtags)
+    val timeElapsed = ((1.00*(System.currentTimeMillis() - startTimeMillis)/60000 * 100).round / 100.toDouble)
+    println(s"\n\nProgram time elapsed: ${timeElapsed} minutes")
+    println(s"Most Popular hashtags for duration of program ${runDuration} seconds (%s total):".format(rdd.count()))
+    var rank:Int = 1
+    topList.foreach{case (count, tag) => 
+          {val authors = tag._2.split("@").distinct.mkString("  @")
+          val mentions = tag._3.split("@").distinct.mkString("  @")
+          println("\nHashtag Rank: %s\nNumber of Tweets: %s\nHashtag: %s\nAuthors:%s\nMentions:%s"
+          .format(rank, tag._1, count, authors, mentions))
+          rank += 1
+          }}})
 
   ssc.start()
   ssc.awaitTerminationOrTimeout(runDuration * 1000)
