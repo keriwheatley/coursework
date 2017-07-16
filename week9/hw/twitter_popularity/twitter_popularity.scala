@@ -44,7 +44,7 @@ object Main extends App {
 
   // val totHashtagCount = scala.collection.mutable.Map[String, Int]().withDefaultValue(0)
 
-  val dataFinal = stream.flatMap(status => 
+  val data = stream.flatMap(status => 
     status.getHashtagEntities.map(hashtag => 
       ("#"+hashtag.getText, 
         (1,
@@ -55,12 +55,10 @@ object Main extends App {
     )
   )
 
-  dataFinal.print()
-  
-  val hashtags = stream.map {hashtag => hashtag.getHashtagEntities.map(_.getText)}
-                  .flatMap(list => list)
-  hashtags.print()
+  data.print()
 
+  val reduce = data.reduceByKey((key,values) => (key + values))
+    
   // val hashtagCount = hashtags.map(hashtag => (hashtag,1)).reduceByKey(_+_)
   // hashtagCount.print()
 
