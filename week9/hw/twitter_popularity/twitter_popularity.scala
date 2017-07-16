@@ -51,7 +51,7 @@ object Main extends App {
           "@"+status.getUser.getName,
           "@"+status.getUserMentionEntities().map(_.getText()).mkString("@")))))
 
-  val dataSample = data.window(seconds(sampleInterval),seconds(sampleInterval))
+  val dataSample = data.window(sampleInterval,sampleInterval)
 
   val hashtagCount = dataSample.reduceByKey((hashtag,value) => 
         (hashtag._1 + value._1,hashtag._2 + value._2,hashtag._3 + value._3))
