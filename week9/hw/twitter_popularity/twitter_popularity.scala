@@ -53,13 +53,17 @@ object Main extends App {
 
   // val dataSample = data.window(sampleInterval,sampleInterval)
 
-  val aggregateFunc: ((Long, Long, Long), (Long, Long, Long)) => (Long, Long, Long) = {
-      case ((v1, w1), (v2, w2), (v3, w3)) => {
-         (v1 + v2, w1 + w2, v3 + w3)
+  val aggregateFunc: ((String, String, String), (Int, String, String)) => (Int, String, String) = {
+      case ((v1, w1, y1), (v2, w2, wy2)) => {
+         (v1 + v2, w1 + w2, y1 + y2)
        }
     }
 
-  val hashtagCount = data.reduceByKeyAndWindow(aggregateFunc,Seconds(60), Seconds(1))
+  val hashtagCount = data.reduceByKey(aggregateFunc)
+
+
+  // val hashtagCount = data.reduceByKey((hashtag,value) => 
+        // (hashtag._1 + value._1,hashtag._2 + value._2,hashtag._3 + value._3))
 
   hashtagCount.foreachRDD(rdd => {
     val topList = rdd.sortBy(-_._2._1).take(numHashtags)
