@@ -88,7 +88,7 @@ object Main extends App {
   totalCount.foreachRDD(rdd => {
     val topList = rdd.sortBy(-_._2._1).take(numHashtags)
     val timeElapsed = ((1.00*(System.currentTimeMillis() - startTimeMillis)/60000 * 100).round / 100.toDouble)
-    topList.saveAsTextFile(s"final_output_${System.currentTimeMillis()}.txt")
+    topList.flatMap(data => data).saveAsTextFile(s"final_output_${System.currentTimeMillis()}.txt")
     println(s"\n\n--------------------------------------")
     println(s"--------------------------------------")
     println(s"--------------------------------------")
