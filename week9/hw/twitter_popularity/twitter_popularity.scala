@@ -57,15 +57,29 @@ object Main extends App {
 
   data.print()
 
-  val hashtagCount = data.map(line => (line._1,line._2._1))
-                .reduceByKey((hashtag,count) => (hashtag + count))
+  val hashtagCount = data.reduceByKey((hashtag,count) => (hashtag._1 + count._1,hashtag._1 + count._2))
 
   hashtagCount.print()
 
-  val hashtagAuthor = data.map(line => (line._1,line._2._2))
-                .groupByKey((hashtag,author) => (hashtag + author))
+  // val hashtagAuthor = data.map(line => (line._1,line._2._2))
+  //               .reduceByKey((hashtag,author) => (hashtag + author))
 
-  hashtagAuthor.print()
+  // hashtagAuthor.print()
+
+  // // // Print popular hashtags
+  // topCounts60.foreachRDD(rdd => {
+  //   val topList = rdd.take(10)
+  //   println("\nPopular topics in last 60 seconds (%s total):".format(rdd.count()))
+  //   topList.foreach{case (count, tag) => println("%s (%s tweets)".format(tag, count))}
+  // })
+
+  // val topCountSample = data.map((_, 1)).reduceByKeyAndWindow(_ + _, Seconds(60))
+  //                    .map{case (topic, count) => (count, topic)}
+  //                    .transform(_.sortByKey(false))
+
+  // val topCounts60 = hashtags.map((_, 1)).reduceByKeyAndWindow(_ + _, Seconds(runDuration))
+  //                    .map{case (topic, count) => (count, topic)}
+  //                    .transform(_.sortByKey(false))
 
   // val hashtagCount = hashtags.map(hashtag => (hashtag,1)).reduceByKey(_+_)
   // hashtagCount.print()
