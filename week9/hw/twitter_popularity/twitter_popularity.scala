@@ -47,7 +47,7 @@ object Main extends App {
       ("#"+hashtag.getText, 
         (1,
           "@"+status.getUser.getName,
-          "@"+status.getUserMentionEntities().map(_.getText()).mkString(" @")))))
+          "@"+status.getUserMentionEntities().map(_.getText()).mkString("@")))))
 
   val hashtagCount = data.reduceByKey((hashtag,value) => 
         (hashtag._1 + value._1,hashtag._2 + value._2,hashtag._3 + value._3))
@@ -58,9 +58,10 @@ object Main extends App {
     println(s"\n\nProgram time elapsed: ${timeElapsed} minutes")
     println(s"Popular topics in last ${sampleInterval} seconds (%s total):".format(rdd.count()))
     topList.foreach{case (count, tag) => 
-          {val authors = tag._2.split("@").distinct.mkString(" @")
+          {val authors = tag._2.split("@").distinct.mkString("  @")
+          val mentions = tag._3.split("@").distinct.mkString("  @")
           println("\nCount: %s  \nHashtag: %s  \nAuthors:%s  \nMentions:%s"
-          .format(tag._1, count, authors, tag._3))}}})
+          .format(tag._1, count, authors, mentions))}}})
 
 
   // val hashtagSort = hashtagCount.map(lines => lines).sortBy(x => x._1))
