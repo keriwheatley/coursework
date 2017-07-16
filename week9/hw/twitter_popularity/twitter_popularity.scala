@@ -73,7 +73,7 @@ object Main extends App {
           rank += 1
           }}})
 
-  val totalCount = data.reduceByKeyAndWindow(aggregateFunc,Seconds(runDuration-5),Seconds(runDuration-5))
+  val totalCount = data.reduceByKeyAndWindow(aggregateFunc,Seconds(runDuration),Seconds(runDuration))
 
   totalCount.foreachRDD(rdd => {
     val topList = rdd.sortBy(-_._2._1).take(numHashtags)
@@ -90,7 +90,7 @@ object Main extends App {
           }}})
 
   ssc.start()
-  ssc.awaitTerminationOrTimeout(runDuration * 1000)
+  ssc.awaitTerminationOrTimeout((runDuration + 5) * 1000)
   println(s"\nMax duration of ${runDuration} seconds reached. Ending program.")
   ssc.stop()
 }
