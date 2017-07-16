@@ -70,7 +70,7 @@ object Main extends App {
   // val sc = new SparkContext(sparkConf)
   // val sqlContext = new SQLContext(sc)
   // import sqlContext.implicits._
-  val testEntry = ("hashtag","count","authors","mentions").toDS()
+  val testEntry = Seq("hashtag","count","authors","mentions").toDS()
   // val ds = sqlContext.createDataset(testEntry)
   testEntry.show()
 
