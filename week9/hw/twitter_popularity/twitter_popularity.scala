@@ -1,7 +1,6 @@
 import org.apache.spark.streaming.{Seconds, StreamingContext}
 import org.apache.spark.SparkContext._
 import org.apache.spark.streaming.twitter._
-import StreamingContext._
 import org.apache.spark.SparkConf
 import twitter4j.TwitterFactory
 import twitter4j.Twitter
@@ -66,7 +65,7 @@ object Main extends App {
 
   // hashtagSort.print()
 
-  val test = data.map(list => (list._1,list._2._1)).reduceByKey((hashtag,value) => 
+  val test = data.flatMap(list => (list._1,list._2._1)).reduceByKey((hashtag,value) => 
         (hashtag + value)).sortBy(_._1)
 
   test.print()
