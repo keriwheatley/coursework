@@ -65,10 +65,10 @@ object Main extends App {
 
   // hashtagSort.print()
 
-  val hashtagCount = data.map(list => (list._1,list._2._1)).reduceByKey((hashtag,value) => 
-        (hashtag._1 + value._1))
+  val test = data.map(list => (list._1,list._2._1)).reduceByKey((hashtag,value) => 
+        (hashtag + value))
 
-  hashtagCount.print()
+  test.print()
 
   // // // Print popular hashtags
   // topCounts60.foreachRDD(rdd => {
