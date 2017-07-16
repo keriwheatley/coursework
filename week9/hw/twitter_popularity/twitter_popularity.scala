@@ -63,7 +63,7 @@ object Main extends App {
   hashtagCount.print()
 
   val hashtagAuthor = data.map(line => (line._1,line._2._2))
-                .aggregateByKey((hashtag,author) => (hashtag + author))
+                .groupByKey((hashtag,author) => (hashtag + author))
 
   hashtagAuthor.print()
 
