@@ -67,7 +67,6 @@ object Main extends App {
     val topList = rdd.sortBy(-_._2._1).take(numHashtags)
     val timeElapsed = ((1.00*(System.currentTimeMillis() - startTimeMillis)/60000 * 100).round / 100.toDouble)
     if (((System.currentTimeMillis() - startTimeMillis)/1000) < runDuration) {
-      topList.saveAsTextFile(s"incremental_output_${System.currentTimeMillis()}.txt")
       println(s"\n\n--------------------------------------")
       println(s"--------------------------------------")
       println(s"Program time elapsed: ${timeElapsed} minutes")
@@ -88,7 +87,6 @@ object Main extends App {
   totalCount.foreachRDD(rdd => {
     val topList = rdd.sortBy(-_._2._1).take(numHashtags)
     val timeElapsed = ((1.00*(System.currentTimeMillis() - startTimeMillis)/60000 * 100).round / 100.toDouble)
-    topList.flatMap(data => data).saveAsTextFile(s"final_output_${System.currentTimeMillis()}.txt")
     println(s"\n\n--------------------------------------")
     println(s"--------------------------------------")
     println(s"--------------------------------------")
