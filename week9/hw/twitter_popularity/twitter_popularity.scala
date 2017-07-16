@@ -1,18 +1,11 @@
 // TO RUN PROGRAM
-// sbt clean assembly && $SPARK_HOME/bin/spark-submit \
-//   --master spark://spark1:7077 $(find target -iname "*assembly*.jar") \
+// $SPARK_HOME/bin/spark-submit --master spark://spark1:7077 $(find target -iname "*assembly*.jar") \
 //   <consumerKey> <consumerSecret> <accessToken> <accessTokenSecret> \
 //   <[optional]numberHashtags> <[optional]sampleInterval> <[optional]runDuration>
 
-// sbt clean assembly && $SPARK_HOME/bin/spark-submit \
-//   --master spark://spark1:7077 $(find target -iname "*assembly*.jar") \
-//   <consumerKey> <consumerSecret> <accessToken> <accessTokenSecret> \
-//   <[optional]numberHashtags> <[optional]sampleInterval> <[optional]runDuration>
-
-// sbt clean assembly && $SPARK_HOME/bin/spark-submit \
-// --master spark://spark1:7077 $(find target -iname "*assembly*.jar") \
-// $consumerKey $consumerSecret $accessToken $accessTokenSecret \
-// 10 120 170
+// $SPARK_HOME/bin/spark-submit --master spark://spark1:7077 $(find target -iname "*assembly*.jar") \
+//   $consumerKey $consumerSecret $accessToken $accessTokenSecret \
+//   10 120 170
 
 import org.apache.spark.streaming.{Seconds, StreamingContext}
 import org.apache.spark.SparkContext._
@@ -38,10 +31,6 @@ object Main extends App {
   if (args.length > 5) {sampleInterval = args(6).toInt}
   if (args.length > 6) {runDuration = args(7).toInt}
 
-  println(s"Number hashtags to display: ${numHashtags}")
-  println(s"Length of sample intervals (in seconds): ${sampleInterval}")
-  println(s"Duration of program run (in seconds): ${runDuration}")
-
   System.setProperty("twitter4j.oauth.consumerKey", consumerKey)
   System.setProperty("twitter4j.oauth.consumerSecret", consumerSecret)
   System.setProperty("twitter4j.oauth.accessToken", accessToken)
@@ -50,6 +39,12 @@ object Main extends App {
   val sparkConf = new SparkConf().setAppName("TwitterPopularTags")
   val ssc = new StreamingContext(sparkConf, Seconds(1))
   val stream = TwitterUtils.createStream(ssc, None)
+
+  println(s"\n\n--------------------------------------")
+  println(s"--------------------------------------")
+  println(s"Number hashtags to display: ${numHashtags}")
+  println(s"Length of sample intervals (in seconds): ${sampleInterval}")
+  println(s"Duration of program run (in seconds): ${runDuration}")
 
   val data = stream.flatMap(status => 
     status.getHashtagEntities.map(hashtag => 
