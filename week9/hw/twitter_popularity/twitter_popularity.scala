@@ -18,7 +18,7 @@ object Main extends App {
 
   val Array(consumerKey, consumerSecret, accessToken, accessTokenSecret) = args.take(4)
   val numHashtags:Int = 8
-  val sampleInterval:Int = 60
+  val sampleInterval:Int = 1
   val runDuration:Int = 180
 
   val numHashtagsTEST:String = if (args(4) == "") "10" else args(4)
@@ -66,8 +66,12 @@ object Main extends App {
           rank += 1
           }}})
 
+  val sc = new SparkContext(conf)
+  val sqlContext = new SQLContext(sc)
+  import sqlContext.implicits._
   val testEntry = Arrays.asList("hashtag","count","authors","mentions")
-  val ds = spark.createDataset(testEntry)
+  val ds = sqlContext.createDataset(testEntry)
+  ds.print()
 
   // val hashtagSort = hashtagCount.map(lines => lines).sortBy(x => x._1))
 
