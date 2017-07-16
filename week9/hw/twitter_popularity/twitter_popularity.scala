@@ -26,6 +26,14 @@ object Main extends App {
   println("This is :", sampleIntervalTEST)
   println("This is :", runDurationTEST)
 
+//   (This is :,--class)
+// (This is :,twitter_popularity/usr/local/spark/bin/spark-submit)
+// (This is :,--master)
+
+// sbt clean assembly && $SPARK_HOME/bin/spark-submit \
+//   --master spark://spark1:7077 $(find target -iname "*assembly*.jar") \
+//   $consumerKey $consumerSecret $accessToken $accessTokenSecret
+
   println(s"Number hashtags: ${numHashtags}")
   println(s"Length of sample intervals (in seconds): ${sampleInterval}")
   println(s"Duration of program run (in seconds): ${runDuration}")
@@ -86,7 +94,7 @@ object Main extends App {
           }}})
 
   ssc.start()
-  ssc.awaitTerminationOrTimeout((runDuration + 30) * 1000)
+  ssc.awaitTerminationOrTimeout((runDuration + 60) * 1000)
   println(s"\nMax duration of ${runDuration} seconds reached. Ending program.")
   ssc.stop()
 }
