@@ -2,9 +2,9 @@ import org.apache.spark.streaming.{Seconds, StreamingContext}
 import org.apache.spark.SparkContext._
 import org.apache.spark.streaming.twitter._
 import org.apache.spark.SparkConf
-import twitter4j.TwitterFactory
-import twitter4j.Twitter
-import twitter4j.conf.ConfigurationBuilder
+// import twitter4j.TwitterFactory
+// import twitter4j.Twitter
+// import twitter4j.conf.ConfigurationBuilder
 import org.apache.spark.sql.SQLContext
 
 object Main extends App {
