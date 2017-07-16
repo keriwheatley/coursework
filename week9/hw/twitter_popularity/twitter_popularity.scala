@@ -67,13 +67,12 @@ object Main extends App {
   //         rank += 1
   //         }}})
 
-  // val sc = new SparkContext(sparkConf)
-  // val sqlContext = new SQLContext(sc)
-  // import sqlContext.implicits._
+  val sc = new SparkContext(sparkConf)
+  val sqlContext= new org.apache.spark.sql.SQLContext(sc)
+  import sqlContext.implicits._
   // val testEntry = Seq("hashtag","count","authors","mentions").toDS()
   // val ds = sqlContext.createDataset(testEntry)
   // testEntry.show()
-
   val dataset = Seq(1, 2, 3).toDS()
   dataset.show()
 
