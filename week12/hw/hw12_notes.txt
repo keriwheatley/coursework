@@ -83,20 +83,50 @@ How to change mapping and reindex - added raw field to turn words into phrases
 
 
 WIKIPEDIA DUMP SPECIFIC 
-
-# This query finds all the articles in that reference
-# that reference the phrase "president of the united states"
-# and returns a list of the top 10 categories used for these articles
-curl -XGET 'http://192.155.217.69:9200/wiki/page/_search?pretty' -H 'Content-Type: application/json' -d'
+# This queries returns the count of unique 'page' 'categories' in this index
+curl -XGET 'http://192.155.217.69:9200/wiki/page/_search?pretty' -d'
 {
-    "fields" : ["category.raw"],
+    "size" : 0,
+    "aggs" : {
+        "distinct_categories" : {
+            "cardinality" : {
+              "field" : "category.raw"
+            }
+        }
+    }
+}'
+
+
+# This query counts the number of documents that reference
+# the word 'clinton' in the 'page' 'category' field
+curl -XGET 'http://192.155.217.69:9200/wiki/page/_count?q=category:clinton&pretty'
+
+
+# This query prints the 'page' 'title' for all articles that 
+# reference the word 'clinton'
+curl -XGET 'http://192.155.217.69:9200/wiki/page/_search?pretty&size=50' -d'
+{
+    "fields" : ["title"],
     "query": {
         "match_phrase": {
-            "text": "president of the united states~"
+            "category": "clinton"
+        }
+    }
+}
+'
+
+# This query returns a count of the categories for articles whose "text" contain the word and shows the top 10
+# "presidents"
+curl -XGET 'http://192.155.217.69:9200/wiki/page/_search?pretty' -d'
+{
+    "fields" : [],
+    "query": {
+        "match_phrase": {
+            "text": "presidents"
         }
     },
     "aggs": {
-      "Count_Categories": {
+      "cnt_categories": {
         "terms": {
           "field": "category.raw"
         }
