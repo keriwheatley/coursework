@@ -1,3 +1,11 @@
+USING CENTOS
+
+1. Create new user
+   # useradd username
+   # passwd username
+   # usermod -aG wheel username
+   # su - username
+
 1. Download stream2es
    # curl -O download.elasticsearch.org/stream2es/stream2es; chmod +x stream2es
 
@@ -13,3 +21,11 @@
 5. Get count of documents in each type
    # curl -X GET 'http://localhost:9200/<index>/<type>/_count'
    # curl -X GET 'http://localhost:9200/tmp/page/_count'
+
+
+
+
+
+11. Stop elasticsearch
+   # ps aux | grep ElasticSearch
+   # kill -SIGTERM <process_id>
