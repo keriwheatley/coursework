@@ -32,3 +32,75 @@ Get count of documents in each type
 Stop elasticsearch
    # ps aux | grep ElasticSearch
    # kill -SIGTERM <process_id>
+
+How to change mapping and reindex - added raw field to turn words into phrases
+   # curl -XGET "http://192.155.217.69:9200/src/_mappings/page?pretty"
+
+   # curl -XPUT 'http://192.155.217.69:9200/src/_mapping/page' -d '
+   {        "properties" : {
+             "category" : {
+               "type" : "string",
+               "fields": {
+                 "raw": { 
+                   "type":  "string",
+                   "index": "not_analyzed"
+                 }
+               }
+             },
+             "disambiguation" : {
+               "type" : "boolean"
+             },
+             "link" : {
+               "type" : "string"
+             },
+             "redirect" : {
+               "type" : "boolean"
+             },
+             "special" : {
+               "type" : "boolean"
+             },
+             "stub" : {
+               "type" : "boolean"
+             },
+             "text" : {
+               "type" : "string"
+             },
+             "title" : {
+               "type" : "string"
+             }
+           }
+         }'
+
+
+   # stream2es es \
+        --source http://192.155.217.69:9200/src \
+        --target http://192.155.217.69:9200/wiki
+
+
+
+
+
+
+
+WIKIPEDIA DUMP SPECIFIC 
+
+# This query finds all the articles in that reference
+# that reference the phrase "president of the united states"
+# and returns a list of the top 10 categories used for these articles
+curl -XGET 'http://192.155.217.69:9200/wiki/page/_search?pretty' -H 'Content-Type: application/json' -d'
+{
+    "fields" : ["category.raw"],
+    "query": {
+        "match_phrase": {
+            "text": "president of the united states~"
+        }
+    },
+    "aggs": {
+      "Count_Categories": {
+        "terms": {
+          "field": "category.raw"
+        }
+      }
+    }
+}
+'
