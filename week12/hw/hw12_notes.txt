@@ -12,6 +12,10 @@ Download stream2es
 Run stream3es on Wikipedia pages
    # ./stream2es wiki --target http://localhost:9200/tmp --log debug
 
+Setup on IP address instead of localhost
+   # cd elasticsearch-2.2.0/config/elasticsearch.yml
+   Update network.host
+
 Start elasticsearch
    # nohup bin/elasticsearch &
 
