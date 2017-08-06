@@ -84,7 +84,7 @@ How to change mapping and reindex - added raw field to turn words into phrases
 
 WIKIPEDIA DUMP SPECIFIC 
 
-1. This query returns the count of Wiki page documents in the index.
+1. This query returns the count of Wiki pages in the index.
       # curl -X GET 'http://192.155.217.69:9200/wiki/page/_count'
 
 2. This query returns the count of unique Wiki page categories in the index.
@@ -100,10 +100,10 @@ WIKIPEDIA DUMP SPECIFIC
             }
          }'
 
-3. This query counts the number of Wiki pages that reference the word 'clinton' in the Wiki page category field.
+3. This query counts the number of Wiki pages with categories that reference the word 'clinton'.
       # curl -XGET 'http://192.155.217.69:9200/wiki/page/_count?q=category:clinton&pretty'
       
-4. This query prints the Wiki page titles for all articles that reference the word 'clinton'.
+4. This query prints the titles for all Wiki pages with a category referencing the word 'clinton'.
       # curl -XGET 'http://192.155.217.69:9200/wiki/page/_search?pretty&size=50' -d'
         {
             "fields" : ["title"],
