@@ -82,12 +82,12 @@ How to change mapping and reindex - added raw field to turn words into phrases
 
 
 
-WIKIPEDIA DUMP SPECIFIC 
+This index contains a dump of Wikipedia articles brought in by stream2es. Here is a link to the GUI: http://192.155.217.69:9200/_plugin/gui/index.html#/query
 
-1. This query returns the count of Wiki pages in the index.
+0. This query returns the count of Wiki pages in the index.
       # curl -X GET 'http://192.155.217.69:9200/wiki/page/_count'
 
-2. This query returns the count of unique Wiki page categories in the index.
+1. This query returns the count of unique Wiki page categories in the index.
       # curl -XGET 'http://192.155.217.69:9200/wiki/page/_search?pretty' -d'
         {
             "size" : 0,
@@ -100,10 +100,10 @@ WIKIPEDIA DUMP SPECIFIC
             }
          }'
 
-3. This query counts the number of Wiki pages with categories that reference the word 'clinton'.
+2. This query counts the number of Wiki pages with categories that reference the word 'clinton'.
       # curl -XGET 'http://192.155.217.69:9200/wiki/page/_count?q=category:clinton&pretty'
       
-4. This query prints the titles for all Wiki pages with a category referencing the word 'clinton'.
+3. This query prints the titles for all Wiki pages with a category referencing the word 'clinton'.
       # curl -XGET 'http://192.155.217.69:9200/wiki/page/_search?pretty&size=50' -d'
         {
             "fields" : ["title"],
@@ -114,7 +114,7 @@ WIKIPEDIA DUMP SPECIFIC
             }
          }'
 
-5. This query returns the 10 most popular categories for Wiki pages that reference the phrase "president of the united states".
+4. This query returns the 10 most popular categories for Wiki pages that reference the phrase "president of the united states".
       # curl -XGET 'http://192.155.217.69:9200/wiki/page/_search?pretty' -d'
         {
             "fields" : [],
@@ -132,7 +132,7 @@ WIKIPEDIA DUMP SPECIFIC
             }
          }'
 
-6. This query returns the 10 most popular links for the Wiki pages.
+5. This query returns the 10 most popular links for the Wiki pages.
       # curl -XGET 'http://192.155.217.69:9200/wiki/page/_search?pretty' -d'
         {
             "fields" : [],
