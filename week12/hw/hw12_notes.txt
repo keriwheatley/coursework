@@ -100,7 +100,7 @@ WIKIPEDIA DUMP SPECIFIC
             }
          }'
 
-3. This query counts the number of documents that reference the word 'clinton' in the Wiki page category field.
+3. This query counts the number of Wiki pages that reference the word 'clinton' in the Wiki page category field.
       # curl -XGET 'http://192.155.217.69:9200/wiki/page/_count?q=category:clinton&pretty'
       
 4. This query prints the Wiki page titles for all articles that reference the word 'clinton'.
