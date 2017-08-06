@@ -88,48 +88,59 @@ WIKIPEDIA DUMP SPECIFIC
       # curl -X GET 'http://192.155.217.69:9200/wiki/page/_count'
 
 2. This query returns the count of unique Wiki page categories in the index.
-      # curl -XGET 'http://192.155.217.69:9200/wiki/page/_search?pretty' -d'
-      {
-          "size" : 0,
-          "aggs" : {
-              "distinct_categories" : {
+      # curl -XGET 'http://192.155.217.69:9200/wiki/page/_search?pretty' -d
+        '{
+            "size" : 0,
+            "aggs" : {
+               "distinct_categories" : {
                   "cardinality" : {
-                    "field" : "category.raw"
+                     "field" : "category.raw"
                   }
-              }
-          }
-      }'
+               }
+            }
+         }'
 
 3. This query counts the number of documents that reference the word 'clinton' in the Wiki page category field.
       # curl -XGET 'http://192.155.217.69:9200/wiki/page/_count?q=category:clinton&pretty'
       
 4. This query prints the Wiki page titles for all articles that reference the word 'clinton'.
-      # curl -XGET 'http://192.155.217.69:9200/wiki/page/_search?pretty&size=50' -d'
-      {
-          "fields" : ["title"],
-          "query": {
-              "match_phrase": {
+      # curl -XGET 'http://192.155.217.69:9200/wiki/page/_search?pretty&size=50' -d
+        '{
+            "fields" : ["title"],
+            "query": {
+               "match_phrase": {
                   "category": "clinton"
-              }
-          }
-      }
-      '
+               }
+            }
+         }'
 
 5. This query returns the 10 most popular categories for Wiki pages that reference the phrase "president of the united states".
-      # curl -XGET 'http://192.155.217.69:9200/wiki/page/_search?pretty' -d'
-      {
-          "fields" : [],
-          "query": {
-              "match_phrase": {
+      # curl -XGET 'http://192.155.217.69:9200/wiki/page/_search?pretty' -d
+        '{
+            "fields" : [],
+            "query": {
+               "match_phrase": {
                   "text": "president of the united states"
-              }
-          },
-          "aggs": {
-            "cnt_categories": {
-              "terms": {
-                "field": "category.raw"
-              }
+               }
+            },
+            "aggs": {
+               "cnt_categories": {
+                  "terms": {
+                     "field": "category.raw"
+                  }
+               }
             }
-          }
-      }
-      '
+         }'
+
+6. This query returns the 10 most popular links for the Wiki pages.
+      # curl -XGET 'http://192.155.217.69:9200/wiki/page/_search?pretty' -d
+        '{
+            "fields" : [],
+            "aggs": {
+               "cnt_links": {
+                  "terms": {
+                     "field": "link.raw"
+                  }
+               }
+            }
+         }'
